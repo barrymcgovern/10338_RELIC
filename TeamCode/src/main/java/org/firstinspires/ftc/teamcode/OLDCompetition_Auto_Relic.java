@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.view.View;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
@@ -13,8 +9,8 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  * Created by kids on 11/2/2017.
  * BLUE 1 AUTONOMOUS
  */
-@Autonomous(name="Auto: Relic", group= "Pushbot")
-public class Competition_Auto_Relic  extends Competition_Hardware_Relic {
+//@Autonomous(name="Auto: Relic", group= "Pushbot")
+public class OLDCompetition_Auto_Relic extends Competition_Hardware_Relic {
     @Override
     public void runOpMode() throws InterruptedException {
 
