@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -11,6 +13,20 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * Created by kids on 10/9/2017.
@@ -31,6 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * RevhubB: 0-stackmotorl 1-stackmotorr 2-slidemotor
  */
 
+
 public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
     public DcMotor motorfl = null;
@@ -48,6 +65,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public double clawLEnd =1;
     public double clawREnd =0;
     public int down = 0;
+    int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
     public Servo servoColorLeft = null;
    // public Servo servoColorRight = null;
@@ -62,27 +81,80 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public NormalizedColorSensor colorSensor;
     NormalizedRGBA colors;
 
+    public VuforiaLocalizer vuforia;
+
     public String team;
 
 
     HardwareMap hwMap = null;
 
+    OpenGLMatrix lastLocation = null;
+
     public void autoMode(String colorSwitch) {
         try {
 
+            clawl.setPosition(clawLStart);
+            clawr.setPosition(clawRStart);
+            runtime.reset();
+            while (runtime.seconds() < 1) {
+
+            }
+            stackmotor.setPower(50);
+            runtime.reset();
+            while (runtime.seconds() < .25) {
+
+            }
+            stackmotor.setPower(0);
+
+            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+            VuforiaTrackable relicTemplate = relicTrackables.get(0);
+            relicTemplate.setName("relicVuMarkTemplate");
+            relicTrackables.activate();
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+
+                /* Found an instance of the template. In the actual game, you will probably
+                 * loop until this condition occurs, then move on to act accordingly depending
+                 * on which VuMark was visible. */
+                telemetry.addData("VuMark", "%s visible", vuMark);
+
+                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
+                 * it is perhaps unlikely that you will actually need to act on this pose information, but
+                 * we illustrate it nevertheless, for completeness. */
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+                telemetry.addData("Pose", matFormat(pose));
+
+                /* We further illustrate how to decompose the pose into useful rotational and
+                 * translational components */
+                if (pose != null) {
+                    VectorF trans = pose.getTranslation();
+                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                    double tX = trans.get(0);
+                    double tY = trans.get(1);
+                    double tZ = trans.get(2);
+
+                    // Extract the rotational components of the target relative to the robot
+                    double rX = rot.firstAngle;
+                    double rY = rot.secondAngle;
+                    double rZ = rot.thirdAngle;
+                }
+            }
+            else {
+                telemetry.addData("VuMark", "not visible");
+            }
+
+            telemetry.update();
+    } catch (Exception e) {
+            telemetry.addData("init SERVO ERROR", e.toString());
+            telemetry.update();
+        }
+
+
+
             if (colorSwitch == "redTurn") {
-                clawl.setPosition(clawLStart);
-                clawr.setPosition(clawRStart);
-                runtime.reset();
-                while (runtime.seconds() < 1) {
-
-                }
-                stackmotor.setPower(50);
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-
-                }
-                stackmotor.setPower(0);
 
                 try {
 
@@ -106,14 +178,24 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         telemetry.update();
                     }
                     //Determines which color Jewel the servo needs to turn to to knock off the correct color
-
+                    runtime.reset();
                         if (colors.red > colors.blue) {
-                            servoJewelLeft.setPosition(.2);
-                            telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                            drive_code(0,1,0);
+                            while (runtime.seconds() < .1){
+
+                            }
+                            runtime.reset();
+                            drive_code(0,-1,0);
+                            while (runtime.seconds() < .1){
+
+                            }
+
                             telemetry.update();
                         } else if (colors.blue > colors.red) {
-                            servoJewelLeft.setPosition(.8);
-                            telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                            drive_code(0,-1,0);
+                            while (runtime.seconds() < .5){
+
+                            }
                             telemetry.update();
                         }
                         runtime.reset();
@@ -134,11 +216,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 servoColorLeft.setPosition(.8);
                 runtime.reset();
                 while (runtime.seconds() < .5){
-
-                }
-                servoJewelLeft.setPosition(.5);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
 
                 }
 
@@ -184,22 +261,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 //Version of Autonomous for red alliance when the robot does not need to turn to deliver Glyph
             } else if (colorSwitch == "redStraight") {
 
-                clawl.setPosition(clawLStart);
-                clawr.setPosition(clawRStart);
-                runtime.reset();
-                while (runtime.seconds() < 1) {
-
-                }
-
-                stackmotor.setPower(50);
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-
-                }
-
-                stackmotor.setPower(0);
-
-
                 servoColorLeft.setPosition(1);
                 runtime.reset();
                 while (runtime.seconds() < .5) {
@@ -219,16 +280,31 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     telemetry.addData("red", colors.red);
                     telemetry.update();
                 }
+                runtime.reset();
 
                 if (colors.red > colors.blue) {
-                    servoJewelLeft.setPosition(.2);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                   drive_code(0, 1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
+                    runtime.reset();
+                    drive_code(0,-1,0);
+                    while (runtime.seconds() < .1){
+
+                    }
                     telemetry.update();
                 } else if (colors.blue > colors.red) {
-                    servoJewelLeft.setPosition(.8);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
-                    telemetry.update();
-                }
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
+                        telemetry.update();
+
 
                 runtime.reset();
                 while (runtime.seconds() < .5) {
@@ -240,11 +316,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 }
 
-                servoJewelLeft.setPosition(.5);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
 
-                }
 
                 servoColorLeft.setPosition(0);
                 runtime.reset();
@@ -276,48 +348,51 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 drive_code(0, 0, 0);
                 //Version of Autonomous for blue alliance when the robot does not need to turn to deliver Glyph
             } else if (colorSwitch == "blueStraight") {
-                telemetry.update();
-                //Grabs the Glyph
-                clawl.setPosition(clawLStart);
-                clawr.setPosition(clawRStart);
-
-                stackmotor.setPower(50);
-
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-
-                }
-                stackmotor.setPower(0);
-
-
-                servoColorLeft.setPosition(1);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-
-                runtime.reset();
-                while (runtime.seconds() < 5) {
-                    colors = colorSensor.getNormalizedColors();
-                    if (colors.red > colors.blue) {
-                        telemetry.addData("color", "red");
-
-                    }else {
-                        telemetry.addData("color", "blue");
-                    }
-                    telemetry.addData("blue", colors.blue);
-                    telemetry.addData("red", colors.red);
                     telemetry.update();
 
+
+                    servoColorLeft.setPosition(0);
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
+
+                    }
+
+                    runtime.reset();
+                    while (runtime.seconds() < 5) {
+                        colors = colorSensor.getNormalizedColors();
+                        if (colors.red > colors.blue) {
+                            telemetry.addData("color", "red");
+
+                        } else {
+                            telemetry.addData("color", "blue");
+                        }
+                        telemetry.addData("blue", colors.blue);
+                        telemetry.addData("red", colors.red);
+                        telemetry.update();
+
+                    }
                 }
 
                 if (colors.red > colors.blue) {
-                    servoJewelLeft.setPosition(.8);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1) {
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
                     telemetry.update();
                 } else if (colors.blue > colors.red) {
-                    servoJewelLeft.setPosition(.2);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                    drive_code(0,1,0);
+                    while (runtime.seconds() < .1){
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
                     telemetry.update();
                 }
 
@@ -362,23 +437,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             } else if (colorSwitch == "blueTurn") {
                 //Grabs the glyph
-                clawl.setPosition(clawLStart);
-                clawr.setPosition(clawRStart);
-                runtime.reset();
-                while (runtime.seconds() < 1) {
-
-                }
-
-                stackmotor.setPower(50);
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-
-                }
-                runtime.reset();
-                stackmotor.setPower(0);
-                while (runtime.seconds() < 1) {
-
-                }
                 servoColorLeft.setPosition(0);
                 runtime.reset();
                 while (runtime.seconds() < .5) {
@@ -400,12 +458,24 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 }
                 //Determines which color Jewel the servo needs to turn to to knock off the correct color
                 if (colors.red > colors.blue) {
-                    servoJewelLeft.setPosition(.8);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1) {
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
                     telemetry.update();
                 } else if (colors.blue > colors.red) {
-                    servoJewelLeft.setPosition(.2);
-                    telemetry.addData("servoJewel", servoJewelLeft.getPosition());
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .5) {
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1){
+
+                    }
                     telemetry.update();
                 }
                 runtime.reset();
@@ -463,16 +533,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 }
             }
-       }catch (Exception e){
-            telemetry.addData("auto ERROR", e.toString());
-            telemetry.update();
-
-        }
-        }
+       }
 
 
 
-
+    String matFormat(OpenGLMatrix transformationMatrix) {
+        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+    }
 
     public void init(HardwareMap ahwMap) {
         try {
@@ -519,6 +586,30 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 telemetry.addData("init stackmotor ERROR", e.toString());
 
             }
+            try{
+                // Vuforia init code
+
+                VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+                parameters.vuforiaLicenseKey = "ATsODcD/////AAAAAVw2lR...d45oGpdljdOh5LuFB9nDNfckoxb8COxKSFX";
+
+
+                parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+                this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+                VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+                VuforiaTrackable relicTemplate = relicTrackables.get(0);
+                relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
+                telemetry.addData(">", "Press Play to start");
+                telemetry.update();
+                waitForStart();
+
+                relicTrackables.activate();
+            } catch (Exception e){
+                telemetry.addData("init SERVO ERROR", e.toString());
+            }
+
 
             try{
                 servoJewelLeft = hardwareMap.get(Servo.class, "servoJewelLeft");
