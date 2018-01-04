@@ -111,119 +111,15 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             stackmotor.setPower(0);
 
 
-
-            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-            VuforiaTrackable relicTemplate = relicTrackables.get(0);
-            relicTemplate.setName("relicVuMarkTemplate");
-            relicTrackables.activate();
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-
-
-                /* Found an instance of the template. In the actual game, you will probably
-                 * loop until this condition occurs, then move on to act accordingly depending
-                 * on which VuMark was visible. */
-                telemetry.addData("VuMark", "%s visible", vuMark);
-
-                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-                 * we illustrate it nevertheless, for completeness. */
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-                telemetry.addData("Pose", matFormat(pose));
-
-                /* We further illustrate how to decompose the pose into useful rotational and
-                 * translational components */
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    double tX = trans.get(0);
-                    double tY = trans.get(1);
-                    double tZ = trans.get(2);
-
-                    // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
-                }
-            }
-            else {
-                telemetry.addData("VuMark", "not visible");
-            }
-
-            telemetry.update();
-    } catch (Exception e) {
+        } catch (Exception e) {
             telemetry.addData("init SERVO ERROR", e.toString());
             telemetry.update();
         }
 
 
+        if (colorSwitch == "redTurn") {
 
-            if (colorSwitch == "redTurn") {
-
-                try {
-
-                    servoColorLeft.setPosition(1);
-                    runtime.reset();
-                    while (runtime.seconds() < .5) {
-
-                    }
-
-                    runtime.reset();
-                    while (runtime.seconds() < 5) {
-                        colors = colorSensor.getNormalizedColors();
-                        if (colors.red > colors.blue) {
-                            telemetry.addData("color", "red");
-
-                        }else {
-                            telemetry.addData("color", "blue");
-                        }
-                        telemetry.addData("blue", colors.blue);
-                        telemetry.addData("red", colors.red);
-                        telemetry.update();
-                    }
-                    //Determines which color Jewel the servo needs to turn to to knock off the correct color
-                    runtime.reset();
-                        if (colors.red > colors.blue) {
-                            drive_code(0,1,0);
-                            while (runtime.seconds() < .1){
-
-                            }
-                            runtime.reset();
-                            drive_code(0,-1,0);
-                            while (runtime.seconds() < .1){
-
-                            }
-
-                            telemetry.update();
-                        } else if (colors.blue > colors.red) {
-                            drive_code(0,-1,0);
-                            while (runtime.seconds() < .5){
-
-                            }
-                            telemetry.update();
-                        }
-                        runtime.reset();
-                        while (runtime.seconds() < 1) {
-
-                        }
-
-                } catch (Exception e) {
-                    telemetry.addData("color ERROR", e.toString());
-                    telemetry.update();
-
-                }
-
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                servoColorLeft.setPosition(.8);
-                runtime.reset();
-                while (runtime.seconds() < .5){
-
-                }
+            try {
 
                 servoColorLeft.setPosition(1);
                 runtime.reset();
@@ -231,217 +127,235 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 }
 
-                telemetry.update();
-                runtime.reset();
-
-
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < 1) {
-
-                }
-                //Wait
-                runtime.reset();
-                drive_code(0, 0, 0);
-                while (runtime.seconds() < .5) {
-
-                }
-                //Turn Step
-                runtime.reset();
-                drive_code(0, 0, -1);
-                while (runtime.seconds() < .65) {
-
-                }
-                runtime.reset();
-                drive_code(0, 0, 0);
-                while (runtime.seconds() < .5) {
-
-                }
-                //Go to the block
-                runtime.reset();
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .25) {
-
-                }
-                drive_code(0, 0, 0);
-
-//Version of Autonomous for red alliance when the robot does not need to turn to deliver Glyph
-            } else if (colorSwitch == "redStraight") {
-
-                servoColorLeft.setPosition(1);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                colors = colorSensor.getNormalizedColors();
                 runtime.reset();
                 while (runtime.seconds() < 5) {
                     colors = colorSensor.getNormalizedColors();
                     if (colors.red > colors.blue) {
                         telemetry.addData("color", "red");
 
-                    }else {
+                    } else {
                         telemetry.addData("color", "blue");
                     }
                     telemetry.addData("blue", colors.blue);
                     telemetry.addData("red", colors.red);
                     telemetry.update();
                 }
+                //Determines which color Jewel the servo needs to turn to to knock off the correct color
                 runtime.reset();
-
                 if (colors.red > colors.blue) {
-                   drive_code(0, 1, 0);
-                    while (runtime.seconds() < .1){
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .1) {
 
                     }
                     runtime.reset();
-                    drive_code(0,-1,0);
-                    while (runtime.seconds() < .1){
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .1) {
 
                     }
+
                     telemetry.update();
                 } else if (colors.blue > colors.red) {
                     drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                        telemetry.update();
-
-
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                servoColorLeft.setPosition(.8);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-
-
-
-                servoColorLeft.setPosition(0);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-
-                telemetry.update();
-                //Determines which color Jewel the servo needs to turn to to knock off the correct color
-
-                runtime.reset();
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .75) {
-
-                }
-
-                runtime.reset();
-                drive_code(-1, 0, 0);
-                while (runtime.seconds() < .5){
-
-                }
-
-                runtime.reset();
-                drive_code(0,-1,0);
-                while (runtime.seconds() < .5){
-
-                }
-
-                drive_code(0, 0, 0);
-                //Version of Autonomous for blue alliance when the robot does not need to turn to deliver Glyph
-            } else if (colorSwitch == "blueStraight") {
-                    telemetry.update();
-
-
-                    servoColorLeft.setPosition(0);
-                    runtime.reset();
                     while (runtime.seconds() < .5) {
 
                     }
+                    telemetry.update();
+                }
+                runtime.reset();
+                while (runtime.seconds() < 1) {
 
-                    runtime.reset();
-                    while (runtime.seconds() < 5) {
-                        colors = colorSensor.getNormalizedColors();
-                        if (colors.red > colors.blue) {
-                            telemetry.addData("color", "red");
-
-                        } else {
-                            telemetry.addData("color", "blue");
-                        }
-                        telemetry.addData("blue", colors.blue);
-                        telemetry.addData("red", colors.red);
-                        telemetry.update();
-
-                    }
                 }
 
+            } catch (Exception e) {
+                telemetry.addData("color ERROR", e.toString());
+                telemetry.update();
+
+            }
+
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            servoColorLeft.setPosition(.8);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+
+            servoColorLeft.setPosition(1);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+
+            telemetry.update();
+            runtime.reset();
+
+
+
+
+//Version of Autonomous for red alliance when the robot does not need to turn to deliver Glyph
+        } else if (colorSwitch == "redStraight") {
+
+            servoColorLeft.setPosition(1);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            colors = colorSensor.getNormalizedColors();
+            runtime.reset();
+            while (runtime.seconds() < 5) {
+                colors = colorSensor.getNormalizedColors();
                 if (colors.red > colors.blue) {
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1) {
-                    }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .1){
+                    telemetry.addData("color", "red");
 
-                    }
-                    telemetry.update();
-                } else if (colors.blue > colors.red) {
-                    drive_code(0,1,0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                    telemetry.update();
+                } else {
+                    telemetry.addData("color", "blue");
                 }
+                telemetry.addData("blue", colors.blue);
+                telemetry.addData("red", colors.red);
+                telemetry.update();
+            }
+            runtime.reset();
 
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                servoColorLeft.setPosition(.8);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                servoJewelLeft.setPosition(.5);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-
-                servoColorLeft.setPosition(0);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                //Delivers the Glyph
-                runtime.reset();
+            if (colors.red > colors.blue) {
                 drive_code(0, 1, 0);
-                while (runtime.seconds() < .75) {
+                while (runtime.seconds() < .1) {
 
                 }
                 runtime.reset();
-                drive_code(-1,0,0);
-                while (runtime.seconds() < .75){
+                drive_code(0, -1, 0);
+                while (runtime.seconds() < .1) {
+
+                }
+                telemetry.update();
+            } else if (colors.blue > colors.red) {
+                drive_code(0, -1, 0);
+                while (runtime.seconds() < .1) {
 
                 }
                 runtime.reset();
                 drive_code(0, 1, 0);
-                while (runtime.seconds() < .5){
+                while (runtime.seconds() < .1) {
 
                 }
-                //Stop; end of autonomous
-                drive_code(0, 0, 0);
+                telemetry.update();
+            }
 
-            } else if (colorSwitch == "blueTurn") {
+
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            servoColorLeft.setPosition(.8);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+
+
+            servoColorLeft.setPosition(0);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            vuforia_Drive("redStraight");
+
+
+            telemetry.update();
+            //Determines which color Jewel the servo needs to turn to to knock off the correct color
+
+
+            //Version of Autonomous for blue alliance when the robot does not need to turn to deliver Glyph
+        } else if (colorSwitch == "blueStraight") {
+            telemetry.update();
+
+
+            servoColorLeft.setPosition(0);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+
+            runtime.reset();
+            while (runtime.seconds() < 5) {
+                colors = colorSensor.getNormalizedColors();
+                if (colors.red > colors.blue) {
+                    telemetry.addData("color", "red");
+
+                } else {
+                    telemetry.addData("color", "blue");
+                }
+                telemetry.addData("blue", colors.blue);
+                telemetry.addData("red", colors.red);
+                telemetry.update();
+
+            }
+
+
+            if (colors.red > colors.blue) {
+                drive_code(0, -1, 0);
+                while (runtime.seconds() < .1) {
+                }
+                runtime.reset();
+                drive_code(0, 1, 0);
+                while (runtime.seconds() < .1) {
+
+                }
+                telemetry.update();
+            } else if (colors.blue > colors.red) {
+                drive_code(0, 1, 0);
+                while (runtime.seconds() < .1) {
+
+                }
+                runtime.reset();
+                drive_code(0, -1, 0);
+                while (runtime.seconds() < .1) {
+
+                }
+                telemetry.update();
+            }
+
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            servoColorLeft.setPosition(.8);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            servoJewelLeft.setPosition(.5);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+
+            servoColorLeft.setPosition(0);
+            runtime.reset();
+            while (runtime.seconds() < .5) {
+
+            }
+            //Delivers the Glyph
+            runtime.reset();
+            drive_code(0, 1, 0);
+            while (runtime.seconds() < .75) {
+
+            }
+            runtime.reset();
+            drive_code(-1, 0, 0);
+            while (runtime.seconds() < .75) {
+
+            }
+            runtime.reset();
+            drive_code(0, 1, 0);
+            while (runtime.seconds() < .5) {
+
+            }
+            //Stop; end of autonomous
+            drive_code(0, 0, 0);
+
+        }   else if (colorSwitch == "blueTurn") {
                 //Grabs the glyph
                 servoColorLeft.setPosition(0);
                 runtime.reset();
@@ -539,7 +453,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 }
             }
-       }
+     }
 
 
 
@@ -668,6 +582,345 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         }catch (Exception e){
             telemetry.addData("init ERROR", e.toString());
             telemetry.update();
+
+        }
+    }
+
+    public void vuforia_Drive(String colorSwitch) {
+        RelicRecoveryVuMark vuMark;
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+        waitForStart();
+        relicTrackables.activate();
+        vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            if (colorSwitch == "redStraight") {
+                runtime.reset();
+                if (vuMark == RelicRecoveryVuMark.CENTER) {
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+
+                } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .1) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+
+                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .4) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+                }
+            } else if (colorSwitch == "redTurn") {
+                if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < 1) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+                } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < 1.15) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < 1.3) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+
+                }
+            } else if (colorSwitch == "blueStraight") {
+                if (vuMark == RelicRecoveryVuMark.CENTER) {
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+
+                } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .1) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+
+                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                    drive_code(0, 0, -1);
+                    while (runtime.seconds() < .4) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .75) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+
+                    drive_code(0, 0, 0);
+                }
+            } else if (colorSwitch == "blueTurn") {
+                if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < 1) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+                } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < 1.15) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < 1.3) {
+
+                    }
+                    //Wait
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Turn Step
+                    runtime.reset();
+                    drive_code(0, 0, 1);
+                    while (runtime.seconds() < .65) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, 0, 0);
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    //Go to the block
+                    runtime.reset();
+                    drive_code(0, 1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    runtime.reset();
+                    drive_code(0, -1, 0);
+                    while (runtime.seconds() < .25) {
+
+                    }
+                    drive_code(0, 0, 0);
+
+                }
+            }
 
         }
     }
