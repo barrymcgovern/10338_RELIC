@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 /**
  * Created by kids on 11/2/2017.
  * BLUE 1 AUTONOMOUS
@@ -17,6 +21,8 @@ public class Comp_Auto_Red_Turn extends Competition_Hardware_Relic {
 
         telemetry.addData("start","before init");
         init(hardwareMap);
+
+
         waitForStart();
 
 

@@ -57,14 +57,22 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public DcMotor stackmotor = null;
 
 
-
     public Servo clawl = null;
     public Servo clawr = null;
+    public Servo clawLTop = null;
+    public Servo clawRTop = null;
     public double clawLStart = 0.5;
     public double clawRStart = 0.5;
     public double clawLEnd =1;
     public double clawREnd =0;
+    public double clawLTopStart = .5;
+    public double clawRTopStart = .5;
+    public double clawLTopEnd = 1;
+    public double clawRTopEnd = 0;
     public int down = 0;
+    public int minPosStackMotor = 0;
+    public int maxPosStackMotor = 0;
+    public boolean startSpin;
 
     public VuforiaLocalizer vuforia;
     public int cameraMonitorViewId;
@@ -75,7 +83,9 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     //public Servo servoJewelRight = null;
 
     public static final String VUFORIA_KEY = "AZNyeJT/////AAAAGcEyNak4ykAkhL+InR+WdKUGDQVzF/FELSuZi1yDVXXgcq8IBY9YUrq/i8CblYxOVZ1f8p3FSqUGHisyj6X2Z/fzTkrhRxyigB1hzK2ua8R5PtjFMrb5bruaTXH0rPs59nmx7OPKDr3rrp74XAKU2Twxt+wRaGCssmWtpwUC2Fk6xz9CRkejMEPhenzNpjd/z4tiQRDAe37LEfpJvos/6QVLZZkamkozBN9gdR8+6JLthq3HL22qwlX21RIbwlJmMoi41qhzcaeyFHk0CamDUHgxVcB1VC5i8Hin3f7Y/EPGGALbPpb4AJUhx2nddSQQVI3nDNoNIhHP5sBJ0OG9WPy5dTvDNGaqK7LQfjbyze2x";
-
+    public RelicRecoveryVuMark vuMark;
+    public VuforiaTrackables relicTrackables ;
+    public VuforiaTrackable relicTemplate ;
 
     public ElapsedTime runtime = new ElapsedTime();
     
@@ -99,6 +109,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             clawl.setPosition(clawLStart);
             clawr.setPosition(clawRStart);
+            clawLTop.setPosition(clawLStart);
+            clawRTop.setPosition(clawRStart);
             runtime.reset();
             while (runtime.seconds() < 1) {
 
@@ -109,6 +121,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             }
             stackmotor.setPower(0);
+
 
 
         } catch (Exception e) {
@@ -143,28 +156,30 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 //Determines which color Jewel the servo needs to turn to to knock off the correct color
                 runtime.reset();
                 if (colors.red > colors.blue) {
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .1) {
 
                     }
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .1) {
 
                     }
 
                     telemetry.update();
                 } else if (colors.blue > colors.red) {
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .5) {
 
                     }
                     telemetry.update();
                 }
+
                 runtime.reset();
                 while (runtime.seconds() < 1) {
 
                 }
+
 
             } catch (Exception e) {
                 telemetry.addData("color ERROR", e.toString());
@@ -172,24 +187,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             }
 
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-            servoColorLeft.setPosition(.8);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-            servoColorLeft.setPosition(1);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-            telemetry.update();
-            runtime.reset();
 
 
 
@@ -259,7 +256,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             while (runtime.seconds() < .5) {
 
             }
-            vuforia_Drive("redStraight");
 
 
             telemetry.update();
@@ -336,24 +332,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             while (runtime.seconds() < .5) {
 
             }
-            //Delivers the Glyph
-            runtime.reset();
-            drive_code(0, 1, 0);
-            while (runtime.seconds() < .75) {
-
-            }
-            runtime.reset();
-            drive_code(-1, 0, 0);
-            while (runtime.seconds() < .75) {
-
-            }
-            runtime.reset();
-            drive_code(0, 1, 0);
-            while (runtime.seconds() < .5) {
-
-            }
-            //Stop; end of autonomous
-            drive_code(0, 0, 0);
 
         }   else if (colorSwitch == "blueTurn") {
                 //Grabs the glyph
@@ -419,41 +397,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 }
 
-                telemetry.update();
-                runtime.reset();
-                drive_code(0, 1, 0);
-                while (runtime.seconds() < 1.10) {
-                    {
 
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
 
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, -1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Deliver the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
 
                 }
+             vuforia_Drive(colorSwitch);
             }
-     }
+
 
 
 
@@ -506,6 +456,17 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 telemetry.addData("init stackmotor ERROR", e.toString());
 
             }
+            try {
+                minPosStackMotor = stackmotor.getCurrentPosition();
+                maxPosStackMotor = minPosStackMotor - 500;
+                telemetry.addData("minPosStackMotor", minPosStackMotor);
+                telemetry.addData("maxPosStackMotor", maxPosStackMotor);
+                telemetry.update();
+
+            } catch (Exception e){
+                telemetry.addData("init stackmotor ERROR", e.toString());
+            }
+
             try{
                 // Vuforia init code
 
@@ -515,6 +476,11 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
                 this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+                RelicRecoveryVuMark vuMark;
+                VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+                VuforiaTrackable relicTemplate = relicTrackables.get(0);
+                relicTemplate.setName("relicVuMarkTemplate");
 
 
             } catch (Exception e){
@@ -534,6 +500,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 try{
                 clawl = hardwareMap.get(Servo.class, "clawl");
                 clawr = hardwareMap.get(Servo.class, "clawr");
+
                 telemetry.addData("clawr",clawr.getPosition());
                 telemetry.addData("clawl",clawl.getPosition());
 
@@ -587,28 +554,24 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     }
 
     public void vuforia_Drive(String colorSwitch) {
-        RelicRecoveryVuMark vuMark;
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        waitForStart();
+
         relicTrackables.activate();
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
             if (colorSwitch == "redStraight") {
                 runtime.reset();
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    drive_code(0, 0, 1);
+                    drive_code(0, 0, -1);
                     while (runtime.seconds() < .25) {
 
                     }
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .75) {
 
                     }
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .5) {
 
                     }
@@ -616,17 +579,17 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     drive_code(0, 0, 0);
 
                 } else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    drive_code(0, 0, 1);
+                    drive_code(0, 0, -1);
                     while (runtime.seconds() < .1) {
 
                     }
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .75) {
 
                     }
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .5) {
 
                     }
@@ -634,12 +597,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     drive_code(0, 0, 0);
 
                 } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                    drive_code(0, 0, 1);
+                    drive_code(0, 0, -1);
                     while (runtime.seconds() < .4) {
 
                     }
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .75) {
 
                     }
@@ -653,7 +616,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 }
             } else if (colorSwitch == "redTurn") {
                 if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < 1) {
 
                     }
@@ -665,7 +628,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Turn Step
                     runtime.reset();
-                    drive_code(0, 0, -1);
+                    drive_code(0, 0, 1);
                     while (runtime.seconds() < .65) {
 
                     }
@@ -676,19 +639,19 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Go to the block
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
                     drive_code(0, 0, 0);
                 } else if (vuMark == RelicRecoveryVuMark.CENTER) {
 
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < 1.15) {
 
                     }
@@ -700,7 +663,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Turn Step
                     runtime.reset();
-                    drive_code(0, 0, -1);
+                    drive_code(0, 0, 1);
                     while (runtime.seconds() < .65) {
 
                     }
@@ -711,19 +674,19 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Go to the block
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
                     drive_code(0, 0, 0);
                 } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
 
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < 1.3) {
 
                     }
@@ -735,7 +698,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Turn Step
                     runtime.reset();
-                    drive_code(0, 0, -1);
+                    drive_code(0, 0, 1);
                     while (runtime.seconds() < .65) {
 
                     }
@@ -746,12 +709,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                     //Go to the block
                     runtime.reset();
-                    drive_code(0, -1, 0);
+                    drive_code(0, 1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, -1, 0);
                     while (runtime.seconds() < .25) {
 
                     }
