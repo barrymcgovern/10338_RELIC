@@ -50,28 +50,32 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             try{
                 telemetry.addData("position", stackmotor.getCurrentPosition());
-                if (gamepad2.left_stick_y > .1){
+                telemetry.addData("max ",maxPosStackMotor);
+                telemetry.addData("min",minPosStackMotor);
+                if (gamepad2.left_stick_y < -.1){
                     telemetry.addData("stack dire","up");
+
                     if (stackmotor.getCurrentPosition() > maxPosStackMotor) {
-                        stackmotor.setPower(.3);
+                        stackmotor.setPower(-.5);
 
                     //go up
 
                     }
 
 
-                } else if (gamepad2.left_stick_y < -.1) {
+                } else if (gamepad2.left_stick_y > .1) {
                     telemetry.addData("stack dire","down");
+
                     if (stackmotor.getCurrentPosition() < minPosStackMotor) {
 
                     //go down
-                        stackmotor.setPower(-.3);
+                        stackmotor.setPower(.1);
 
                     }
 
                 }else {
                     telemetry.addData("stack dire","stop");
-                    stackmotor.setPower(0);
+                    stackmotor.setPower(-.1);
                 }
             } catch (Exception p_exception) {
                 telemetry.addData("op mode error","stacker " +  p_exception.toString());
@@ -95,10 +99,10 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                 }
                 if (startSpin == true) {
 
-                    if (runtime.seconds() < .5) {
+                    if (runtime.seconds() < 3) {
                         drive_code(0, 0, -1);
                     }
-                    if (runtime.seconds() > .5){
+                    if (runtime.seconds() > 3){
                         startSpin = false;
                     }
                 }

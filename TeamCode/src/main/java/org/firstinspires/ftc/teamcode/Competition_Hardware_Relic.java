@@ -63,8 +63,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public Servo clawRTop = null;
     public double clawLStart = 0.5;
     public double clawRStart = 0.5;
-    public double clawLEnd =1;
-    public double clawREnd =0;
+    public double clawLEnd =0;
+    public double clawREnd =1;
     public double clawLTopStart = .5;
     public double clawRTopStart = .5;
     public double clawLTopEnd = 1;
