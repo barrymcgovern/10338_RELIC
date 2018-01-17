@@ -59,16 +59,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
     public Servo clawl = null;
     public Servo clawr = null;
-    public Servo clawLTop = null;
-    public Servo clawRTop = null;
+
     public double clawLStart = 0.5;
     public double clawRStart = 0.5;
     public double clawLEnd =0;
     public double clawREnd =1;
-    public double clawLTopStart = .5;
-    public double clawRTopStart = .5;
-    public double clawLTopEnd = 1;
-    public double clawRTopEnd = 0;
+
     public int down = 0;
     public int minPosStackMotor = 0;
     public int maxPosStackMotor = 0;
@@ -87,8 +83,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
     public Servo servoColorLeft = null;
    // public Servo servoColorRight = null;
-    public Servo servoJewelLeft = null;
-    //public Servo servoJewelRight = null;
+
 
     public static final String VUFORIA_KEY = "AZNyeJT/////AAAAGcEyNak4ykAkhL+InR+WdKUGDQVzF/FELSuZi1yDVXXgcq8IBY9YUrq/i8CblYxOVZ1f8p3FSqUGHisyj6X2Z/fzTkrhRxyigB1hzK2ua8R5PtjFMrb5bruaTXH0rPs59nmx7OPKDr3rrp74XAKU2Twxt+wRaGCssmWtpwUC2Fk6xz9CRkejMEPhenzNpjd/z4tiQRDAe37LEfpJvos/6QVLZZkamkozBN9gdR8+6JLthq3HL22qwlX21RIbwlJmMoi41qhzcaeyFHk0CamDUHgxVcB1VC5i8Hin3f7Y/EPGGALbPpb4AJUhx2nddSQQVI3nDNoNIhHP5sBJ0OG9WPy5dTvDNGaqK7LQfjbyze2x";
     public RelicRecoveryVuMark vuMark;
@@ -117,8 +112,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             clawl.setPosition(clawLStart);
             clawr.setPosition(clawRStart);
-            clawLTop.setPosition(clawLStart);
-            clawRTop.setPosition(clawRStart);
+
             runtime.reset();
             while (runtime.seconds() < 1) {
 
@@ -329,7 +323,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             while (runtime.seconds() < .5) {
 
             }
-            servoJewelLeft.setPosition(.5);
+            //servoJewelLeft.setPosition(.5);
             runtime.reset();
             while (runtime.seconds() < .5) {
 
@@ -393,7 +387,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 while (runtime.seconds() < 1) {
 
                 }
-                servoJewelLeft.setPosition(.5);
+              //  servoJewelLeft.setPosition(.5);
                 runtime.reset();
                 while (runtime.seconds() < 1) {
 
@@ -503,9 +497,9 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
 
             try{
-                servoJewelLeft = hardwareMap.get(Servo.class, "servoJewelLeft");
+              //  servoJewelLeft = hardwareMap.get(Servo.class, "servoJewelLeft");
                 servoColorLeft = hardwareMap.get(Servo.class, "servoColorLeft");
-                telemetry.addData("servoJewelLeft",servoJewelLeft.getPosition());
+               // telemetry.addData("servoJewelLeft",servoJewelLeft.getPosition());
                 telemetry.addData("servoColorLeft",servoColorLeft.getPosition());
             }catch (Exception e){
                 telemetry.addData("init SERVO ERROR", e.toString());
