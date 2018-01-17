@@ -75,12 +75,47 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                 }else {
                     telemetry.addData("stack dire","stop");
+
                     stackmotor.setPower(-.1);
+                    try{
+                        if (gamepad2.a) {
+                            rowToGoTo = 1;
+                            targetPosition = row1;
+                            if (targetPosition > stackmotor.getCurrentPosition()) {
+                            rowDirection = "down";
+                             }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
+                        }
+
+                        }
+                        else if (gamepad2.b){
+                            rowToGoTo = 2;
+                            targetPosition = row2;
+
+                        }
+                        else if (gamepad2.x){
+                            rowToGoTo =3;
+                            targetPosition = row3;
+                        }
+                        else if (gamepad2.y) {
+                            rowToGoTo = 4;
+                            targetPosition = row4;
+                        }
+
+
+
+                    } catch (Exception p_exception){
+                        telemetry.addData("op mode error", "stacker buttons" + p_exception.toString());
+                    }
+
                 }
             } catch (Exception p_exception) {
                 telemetry.addData("op mode error","stacker " +  p_exception.toString());
 
             }
+
+
+
+
             try {
                   /*
 

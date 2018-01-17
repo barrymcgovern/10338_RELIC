@@ -72,6 +72,14 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public int down = 0;
     public int minPosStackMotor = 0;
     public int maxPosStackMotor = 0;
+    public int row1 = 0;
+    public int row2 = 0;
+    public int row3 = 0;
+    public int row4 = 0;
+    public int rowToGoTo = 0;
+    public int targetPosition = 0;
+    public String rowDirection = "";
+
     public boolean startSpin;
 
     public VuforiaLocalizer vuforia;
@@ -459,6 +467,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             try {
                 minPosStackMotor = stackmotor.getCurrentPosition();
                 maxPosStackMotor = minPosStackMotor - 500;
+                row1 = minPosStackMotor;
+                row2 = minPosStackMotor- 315;
+                row3 = minPosStackMotor- 140;
+                row4 = maxPosStackMotor;
+
+
                 telemetry.addData("minPosStackMotor", minPosStackMotor);
                 telemetry.addData("maxPosStackMotor", maxPosStackMotor);
                 telemetry.update();
