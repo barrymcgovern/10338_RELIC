@@ -13,6 +13,7 @@ public class Comp_Auto_Blue_Straight extends Competition_Hardware_Relic {
 
         telemetry.addData("start","before init");
         init(hardwareMap);
+        relicTrackables.activate();
         waitForStart();
 
 

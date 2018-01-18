@@ -64,6 +64,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public double clawRStart = 0.5;
     public double clawLEnd =0;
     public double clawREnd =1;
+    public double vuRSSeconds = 0;
+    public double vuBSSeconds = 0;
+    public double vuBTSeconds = 0;
+    public double vuRTSeconds = 0;
 
     public int down = 0;
     public int minPosStackMotor = 0;
@@ -563,52 +567,49 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
     public void vuforia_Drive(String colorSwitch) {
 
-        relicTrackables.activate();
+
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            if (colorSwitch == "redStraight") {
+                if (vuMark == RelicRecoveryVuMark.CENTER) {
+                    vuRSSeconds = .4; 
+                    vuBSSeconds = .4;
+                    vuBTSeconds = .5;
+                    vuRTSeconds = .5;
+                } else if (vuMark == RelicRecoveryVuMark.LEFT){
+                    vuRSSeconds = .6;
+                    vuBSSeconds = .2;
+                    vuRTSeconds = .7;
+                    vuBTSeconds = .3;
+                } else if (vuMark == RelicRecoveryVuMark.RIGHT){
+                    vuRSSeconds = .2;
+                    vuBSSeconds = .6;
+                    vuRTSeconds = .3;
+                    vuBTSeconds = .7;
+                }
+
+            if (colorSwitch.contains("Straight")) {
                 runtime.reset();
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    drive_code(0, 0, -1);
-                    while (runtime.seconds() < .25) {
-
-                    }
+                    //turn the robot twoard the glyph stacker
                     runtime.reset();
-                    drive_code(0, 1, 0);
+                    drive_code(0, 0, 0);
                     while (runtime.seconds() < .75) {
 
                     }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-
-                    drive_code(0, 0, 0);
-
                 } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    //go straight
                     drive_code(0, 0, -1);
-                    while (runtime.seconds() < .1) {
+                    while(runtime.seconds() < .3){
 
                     }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .75) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-
-                    drive_code(0, 0, 0);
 
                 } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                    //turn so the robot is perfectly even with the glyph stacker.
                     drive_code(0, 0, -1);
                     while (runtime.seconds() < .4) {
 
                     }
+                }
                     runtime.reset();
                     drive_code(0, 1, 0);
                     while (runtime.seconds() < .75) {
@@ -621,276 +622,15 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
 
                     drive_code(0, 0, 0);
-                }
-            } else if (colorSwitch == "redTurn") {
-                if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1) {
+
+            } else if (colorSwitch.contains("Turn")) {
+                    if (vuMark == RelicRecoveryVuMark.RIGHT){
+
+                    } else if (vuMark == RelicRecoveryVuMark.LEFT){
+
+                    } else if (vuMark == RelicRecoveryVuMark.CENTER){
 
                     }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-                } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1.15) {
-
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1.3) {
-
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-
-                }
-            } else if (colorSwitch == "blueStraight") {
-                if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    drive_code(0, 0, -1);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .75) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-
-                    drive_code(0, 0, 0);
-
-                } else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    drive_code(0, 0, -1);
-                    while (runtime.seconds() < .1) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .75) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-
-                    drive_code(0, 0, 0);
-
-                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                    drive_code(0, 0, -1);
-                    while (runtime.seconds() < .4) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .75) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-
-                    drive_code(0, 0, 0);
-                }
-            } else if (colorSwitch == "blueTurn") {
-                if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1) {
-
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-                } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1.15) {
-
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-                } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < 1.3) {
-
-                    }
-                    //Wait
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Turn Step
-                    runtime.reset();
-                    drive_code(0, 0, 1);
-                    while (runtime.seconds() < .65) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 0, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    //Go to the block
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .25) {
-
-                    }
-                    drive_code(0, 0, 0);
-
-                }
             }
 
         }
