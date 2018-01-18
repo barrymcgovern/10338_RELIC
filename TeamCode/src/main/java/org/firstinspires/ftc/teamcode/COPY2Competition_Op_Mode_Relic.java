@@ -9,11 +9,12 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
  * Created by kids on 10/11/2017.
  */
 
-@TeleOp(name="Comp: Relic Main", group= "Pushbot")
+//@TeleOp(name="Comp: Relic Main", group= "Pushbot")
 
-public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
+public class COPY2Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
     NormalizedRGBA colors;
     @Override
+
     public void runOpMode() throws InterruptedException {
 
         init(hardwareMap);
@@ -50,8 +51,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                     if (stackmotor.getCurrentPosition() > maxPosStackMotor) {
                         stackmotor.setPower(-.5);
-                    }else{
-                        stackmotor.setPower(-.1);
                     }
 
 
@@ -61,8 +60,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     if (stackmotor.getCurrentPosition() < minPosStackMotor) {
                         stackmotor.setPower(.05);
 
-                    }else{
-                        stackmotor.setPower(-.1);
                     }
 
                 }else {
@@ -76,8 +73,8 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                             rowToGoTo = 1;
                             targetPosition = row1;
                             if (targetPosition > stackmotor.getCurrentPosition()) {
-                                rowDirection = "down";
-                            }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
+                            rowDirection = "down";
+                             }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
                                 rowDirection = "up";
                             }
 
@@ -117,19 +114,13 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                             if (rowDirection == "up"){
                                 if(targetPosition> stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
-                                    stackmotor.setPower(-.1);
-                                }else{
-                                    stackmotor.setPower(-.5);
                                 }
-
+                                stackmotor.setPower(-.5);
                             }else if (rowDirection == "down"){
                                 if(targetPosition< stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
-                                    stackmotor.setPower(-.3);
-                                }else{
-                                    stackmotor.setPower(.05);
                                 }
-
+                                stackmotor.setPower(.05);
                             }
                         }else{
                             stackmotor.setPower(-.1);
@@ -215,7 +206,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
             telemetry.addData("motor front right",motorfr.getDirection() + "  " + motorfr.getPower());
             telemetry.addData("motor back left",motorbl.getDirection() + "  " + motorbl.getPower());
             telemetry.addData("motor back right",motorbr.getDirection() + "  " + motorbr.getPower());
-            telemetry.update();
+           telemetry.update();
 
         }
 

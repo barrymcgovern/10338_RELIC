@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 /**
  * Created by kids on 10/11/2017.
  */
 
-@TeleOp(name="Comp: Relic Main", group= "Pushbot")
+//@TeleOp(name="Comp: Relic Main", group= "Pushbot")
 
-public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
+public class COPYCompetition_Op_Mode_Relic extends Competition_Hardware_Relic  {
     NormalizedRGBA colors;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,7 +36,14 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             }
 
+            try {
+                colors = colorSensor.getNormalizedColors();
+                telemetry.addData("blue", colors.blue);
+                telemetry.addData("red", colors.red);
+            } catch (Exception p_exception) {
+                telemetry.addData("op mode error","color " +  p_exception.toString());
 
+            }
 
 
             try{
@@ -50,8 +55,9 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                     if (stackmotor.getCurrentPosition() > maxPosStackMotor) {
                         stackmotor.setPower(-.5);
-                    }else{
-                        stackmotor.setPower(-.1);
+
+                    //go up
+
                     }
 
 
@@ -59,80 +65,38 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     telemetry.addData("stack dire","down");
 
                     if (stackmotor.getCurrentPosition() < minPosStackMotor) {
-                        stackmotor.setPower(.05);
 
-                    }else{
-                        stackmotor.setPower(-.1);
+                    //go down
+                        stackmotor.setPower(.1);
+
                     }
 
                 }else {
+                    telemetry.addData("stack dire","stop");
 
-
-
+                    stackmotor.setPower(-.1);
                     try{
-                        telemetry.addData("stack dire","gamepad");
-
                         if (gamepad2.a) {
                             rowToGoTo = 1;
                             targetPosition = row1;
                             if (targetPosition > stackmotor.getCurrentPosition()) {
-                                rowDirection = "down";
-                            }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
-                                rowDirection = "up";
-                            }
+                            rowDirection = "down";
+                             }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
+                        }
 
                         }
                         else if (gamepad2.b){
                             rowToGoTo = 2;
                             targetPosition = row2;
-                            if (targetPosition > stackmotor.getCurrentPosition()) {
-                                rowDirection = "down";
-                            }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
-                                rowDirection = "up";
-                            }
 
                         }
                         else if (gamepad2.x){
                             rowToGoTo =3;
                             targetPosition = row3;
-                            if (targetPosition > stackmotor.getCurrentPosition()) {
-                                rowDirection = "down";
-                            }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
-                                rowDirection = "up";
-                            }
                         }
                         else if (gamepad2.y) {
                             rowToGoTo = 4;
                             targetPosition = row4;
-                            if (targetPosition > stackmotor.getCurrentPosition()) {
-                                rowDirection = "down";
-                            }  else  if (targetPosition < stackmotor.getCurrentPosition()) {
-                                rowDirection = "up";
-                            }
-                        }
-                        telemetry.addData("rowToGoTo", rowToGoTo);
-                        telemetry.addData("rowDirection", rowDirection);
-                        telemetry.addData("stackPower", stackmotor.getPower());
-                        if(rowToGoTo >0){
-                            if (rowDirection == "up"){
-                                if(targetPosition> stackmotor.getCurrentPosition()){
-                                    rowToGoTo=0;
-                                    stackmotor.setPower(-.1);
-                                }else{
-                                    stackmotor.setPower(-.5);
-                                }
-
-                            }else if (rowDirection == "down"){
-                                if(targetPosition< stackmotor.getCurrentPosition()){
-                                    rowToGoTo=0;
-                                    stackmotor.setPower(-.3);
-                                }else{
-                                    stackmotor.setPower(.05);
-                                }
-
-                            }
-                        }else{
-                            stackmotor.setPower(-.1);
                         }
 
 
@@ -215,7 +179,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
             telemetry.addData("motor front right",motorfr.getDirection() + "  " + motorfr.getPower());
             telemetry.addData("motor back left",motorbl.getDirection() + "  " + motorbl.getPower());
             telemetry.addData("motor back right",motorbr.getDirection() + "  " + motorbr.getPower());
-            telemetry.update();
+           telemetry.update();
 
         }
 

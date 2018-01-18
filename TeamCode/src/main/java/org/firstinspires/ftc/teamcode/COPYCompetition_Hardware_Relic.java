@@ -2,11 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -16,16 +13,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
@@ -48,7 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 
-public abstract class Competition_Hardware_Relic extends LinearOpMode {
+public abstract class COPYCompetition_Hardware_Relic extends LinearOpMode {
 
     public DcMotor motorfl = null;
     public DcMotor motorfr = null;
@@ -60,8 +50,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public Servo clawl = null;
     public Servo clawr = null;
 
-    public double clawLStart = 0.25;
-    public double clawRStart = 0.75;
+    public double clawLStart = 0.5;
+    public double clawRStart = 0.5;
     public double clawLEnd =0;
     public double clawREnd =1;
     public double vuRSSeconds = 0;
@@ -462,14 +452,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 telemetry.addData("init stackmotor ERROR", e.toString());
 
             }
-
             try {
                 minPosStackMotor = stackmotor.getCurrentPosition();
+                maxPosStackMotor = minPosStackMotor - 500;
                 row1 = minPosStackMotor;
-                row2 = row1- 281;
-                row3 = row2- 221 ;
-                row4 = row3- 183;
-                maxPosStackMotor = row4 - 50;
+                row2 = minPosStackMotor- 315;
+                row3 = minPosStackMotor- 140;
+                row4 = maxPosStackMotor;
 
 
                 telemetry.addData("minPosStackMotor", minPosStackMotor);
