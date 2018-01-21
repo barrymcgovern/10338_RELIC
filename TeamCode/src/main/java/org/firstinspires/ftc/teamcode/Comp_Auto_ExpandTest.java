@@ -18,8 +18,27 @@ public class Comp_Auto_ExpandTest extends Competition_Hardware_Relic {
 
 
         runtime.reset();
-        // put in code to get claw out
-
+        //get claw out
+runtime.reset();
+while (runtime.seconds() < .5) {
+    stackmotor.setPower(-.5);
+}
+stackmotor.setPower(-.1);
+clawl.setPosition(clawLStart);
+clawr.setPosition(clawRStart);
+runtime.reset();
+while (runtime.seconds() < 1) {}
+runtime.reset();
+while (runtime.seconds() < 2) {
+    stackmotor.setPower(.05);
+}
+clawl.setPosition(clawLEnd);
+clawr.setPosition(clawREnd);
+runtime.reset();
+while (runtime.seconds() < 2) {
+    stackmotor.setPower(-.5);
+}
+stackmotor.setPower(-.1);
 
         drive_code(0,0,0);
 
