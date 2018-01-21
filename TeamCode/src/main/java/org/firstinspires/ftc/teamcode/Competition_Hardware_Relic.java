@@ -114,10 +114,14 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
     public void autoMode(String colorSwitch) {
         try {
-
-            servoColorLeft.setPosition(1);
+            try {
+                servoColorLeft.setPosition(1);
+            }catch (Exception e){
+                telemetry.addData("servor ERROR", e.toString());
+                telemetry.update();
+            }
             runtime.reset();
-            while (runtime.seconds() < .5) {
+            while (runtime.seconds() < 2) {
 
             }
 
@@ -142,62 +146,79 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         }
 
 
-        if (colorSwitch == "redTurn" || colorSwitch == "redStraight") {
-            if (colors.red > colors.blue) {
+        try {
+            if (colorSwitch == "redTurn" || colorSwitch == "redStraight") {
+                if (colors.red > colors.blue) {
 
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-                    drive_code(0, 1, 0);
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto (.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto (-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .05) {
+                        drive_auto(.3, 0);
+                    }
+                    runtime.reset();
+
+
+                } else if (colors.red < colors.blue) {
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto(-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto(.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .05) {
+                        drive_auto(-.3, 0);
+                    }
+
                 }
-                runtime.reset();
-                while (runtime.seconds() < .1) {
-                    drive_code(0, 0, 0);
-                }
-                while (runtime.seconds() < .25) {
-                    drive_code(0, -1, 0);
-                }
-            } else if (colors.red < colors.blue) {
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-                    drive_code(0, -1, 0);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .1) {
-                    drive_code(0, 0, 0);
-                }
-                while (runtime.seconds() < .25) {
-                    drive_code(0, 1, 0);
+            } else {
+                if (colors.blue > colors.red) {
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto(-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto(.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .05) {
+                        drive_auto(-.3, 0);
+                    }
+
+
+                } if (colors.blue < colors.red){
+                    runtime.reset();
+                    while (runtime.seconds()< .3) {
+                        drive_auto(.3, 0);
+                    }runtime.reset();
+                    while (runtime.seconds()< .3){
+                        drive_auto(-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds()<.05){
+                        drive_auto(.3,0);
+                    }
+
                 }
 
             }
-        } else {
-            if (colors.blue > colors.red) {
-                runtime.reset();
-                while (runtime.seconds() < .25) {
-                    drive_code(0, -1, 0);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .1) {
-                    drive_code(0, 0, 0);
-                }
-                while (runtime.seconds() < .25) {
-                    drive_code(0, 1, 0);
-                }
 
+            drive_code(0,0,0);
 
-            } if (colors.blue < colors.red){
-                runtime.reset();
-                while (runtime.seconds()< .25) {
-                    drive_code(0, 1, 0);
-                }runtime.reset();
-                while (runtime.seconds()<.1){
-                    drive_code(0,0,0);
-                }while (runtime.seconds()<.25){
-                    drive_code(0,-1,0);
-                }
-
-            }
-
+        }catch (Exception e){
+            drive_code(0,0,0);
+            telemetry.addData("run ERROR", e.toString());
+            telemetry.update();
         }
     }
 
@@ -297,39 +318,22 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
 
             try{
-              //  servoJewelLeft = hardwareMap.get(Servo.class, "servoJewelLeft");
+
                 servoColorLeft = hardwareMap.get(Servo.class, "servoColorLeft");
-               // telemetry.addData("servoJewelLeft",servoJewelLeft.getPosition());
-                telemetry.addData("servoColorLeft",servoColorLeft.getPosition());
+                 telemetry.addData("servoColorLeft",servoColorLeft.getPosition());
             }catch (Exception e){
-                telemetry.addData("init SERVO ERROR", e.toString());
+                telemetry.addData("init SERVO jewel ERROR", e.toString());
             }
 
-                try{
+             try{
                 clawl = hardwareMap.get(Servo.class, "clawl");
                 clawr = hardwareMap.get(Servo.class, "clawr");
 
                 telemetry.addData("clawr",clawr.getPosition());
                 telemetry.addData("clawl",clawl.getPosition());
 
-
-
-
-
-                /*
-                clawl.setPosition(5);
-                clawr.setPosition(5);
-
-                // motor ports 0 and 1 Hub A
-                servoColorLeft.setPosition(0);
-                //servoColorRight.setPosition(0);
-
-                //motor ports 2 and 3 hub A
-                servoJewelLeft.setPosition(0);
-                //servoJewelRight.setPosition(0);
-                */
             }catch (Exception e){
-                telemetry.addData("init SERVO ERROR", e.toString());
+                telemetry.addData("init SERVO claw ERROR", e.toString());
             }
 
             try{
@@ -454,6 +458,20 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
         }
     }
+    void drive_auto (double x, double y){
+        try {
+
+
+            motorfl.setPower(x);
+            motorfr.setPower(x);
+            motorbl.setPower(x);
+            motorbr.setPower(x);
+        }catch (Exception e ){
+            telemetry.addData("auto drive error", e.toString());
+            telemetry.update();
+        }
+    }
+
 
     void drive_code (float x,float y, float z){
         try{

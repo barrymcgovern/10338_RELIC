@@ -42,7 +42,7 @@ public class Comp_Auto_ExpandTest extends Competition_Hardware_Relic {
         clawl.setPosition(clawLEnd);
         clawr.setPosition(clawREnd);
         runtime.reset();
-        while (runtime.seconds() < 2) {
+        while (runtime.seconds() < .5) {
           stackmotor.setPower(-.5);
         }
         stackmotor.setPower(-.1);
