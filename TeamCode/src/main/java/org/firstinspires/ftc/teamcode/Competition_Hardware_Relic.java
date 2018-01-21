@@ -55,6 +55,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public DcMotor motorbl = null;
     public DcMotor motorbr = null;
     public DcMotor stackmotor = null;
+    public DcMotor ledLights = null;
 
 
     public Servo clawl = null;
@@ -424,6 +425,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             // Define and Initialize Motors
             telemetry.addLine("starting");
             telemetry.update();
+            try {
+                ledLights = hwMap.dcMotor.get("ledLights");
+                ledLights.setPower(1);
+            }catch (Exception e){
+                telemetry.addData("init LED Motor ERROR", e.toString());
+            }
             try{
                 motorfl = hwMap.dcMotor.get("motorfl");
                 motorfr= hwMap.dcMotor.get("motorfr");
