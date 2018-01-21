@@ -78,6 +78,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public int rowToGoTo = 0;
     public int targetPosition = 0;
     public String rowDirection = "";
+    public String vuDirection = "";
 
     public boolean startSpin;
 
@@ -385,18 +386,14 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 -
             blueturn
             */
+            if (colorSwitch.contains("red")){
+                vuDirection = "Right";
+            }
+            if (colorSwitch.contains("blue")){
+                vuDirection = "Left";
+            }
               if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    // we only need 2 variables
-                    // seconds to turn and direction
-
-//redstr
-                  //bluest
-                  //redturn
-                  //bluet
-                    //straigt
-                        //seconds=1
-                    //turn
-
+                //middle amount
                  if (colorSwitch.contains("Straight")){
                      vuSeconds = .4;
                  } else if (colorSwitch.contains("Turn")){
@@ -415,6 +412,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
 
                 } else if (vuMark == RelicRecoveryVuMark.RIGHT){
+
                    if (colorSwitch == "redStraight"){
                        vuSeconds = .2;
                    } else if (colorSwitch == "blueStraight"){
@@ -433,13 +431,15 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 // turn [direction] for [secondsToTurn]
 
                 // need direction to turn
+                //if turn = left
+
+
                 drive_code(0, 0, 1);
 
                 // use secondsToTurn
-                while (runtime.seconds() < .75) {
+                while (runtime.seconds() < vuSeconds) {
 
                 }
-
                 // stop
                 drive_code(0, 0, 0);
 
