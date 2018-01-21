@@ -570,7 +570,31 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
 
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        telemetry.addData("vuMark",vuMark);
+        telemetry.update();
+        runtime.reset();
+        while(runtime.seconds() < 3){
+            // show mark for a few seconds
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("vuMark",vuMark);
+            telemetry.update();
+        }
+        runtime.reset();
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            /* redstraight
+                - turn left a few seconds
+                  go straight
+             bluestraight
+                - turn right a few seconds
+                - go straing
+            redturn
+                - go straight
+                -
+            blueturn
+            */
+
+
+
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
                     // we only need 2 variables
                     // seconds to turn and direction
