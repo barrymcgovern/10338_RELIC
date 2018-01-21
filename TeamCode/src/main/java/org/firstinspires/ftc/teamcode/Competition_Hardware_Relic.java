@@ -115,20 +115,25 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public void autoMode(String colorSwitch) {
         try {
 
-            clawl.setPosition(clawLStart);
-            clawr.setPosition(clawRStart);
-
+            servoColorLeft.setPosition(1);
             runtime.reset();
-            while (runtime.seconds() < 1) {
+            while (runtime.seconds() < .5) {
 
             }
-            stackmotor.setPower(50);
+
             runtime.reset();
-            while (runtime.seconds() < .25) {
+            while (runtime.seconds() < 5) {
+                colors = colorSensor.getNormalizedColors();
+                if (colors.red > colors.blue) {
+                    telemetry.addData("color", "red");
 
+                } else {
+                    telemetry.addData("color", "blue");
+                }
+                telemetry.addData("blue", colors.blue);
+                telemetry.addData("red", colors.red);
+                telemetry.update();
             }
-            stackmotor.setPower(0);
-
 
 
         } catch (Exception e) {
@@ -137,281 +142,64 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         }
 
 
-        if (colorSwitch == "redTurn") {
-
-            try {
-
-                servoColorLeft.setPosition(1);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-
-                runtime.reset();
-                while (runtime.seconds() < 5) {
-                    colors = colorSensor.getNormalizedColors();
-                    if (colors.red > colors.blue) {
-                        telemetry.addData("color", "red");
-
-                    } else {
-                        telemetry.addData("color", "blue");
-                    }
-                    telemetry.addData("blue", colors.blue);
-                    telemetry.addData("red", colors.red);
-                    telemetry.update();
-                }
-                //Determines which color Jewel the servo needs to turn to to knock off the correct color
-                runtime.reset();
-                if (colors.red > colors.blue) {
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1) {
-
-                    }
-                    runtime.reset();
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .1) {
-
-                    }
-
-                    telemetry.update();
-                } else if (colors.blue > colors.red) {
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .5) {
-
-                    }
-                    telemetry.update();
-                }
-
-                runtime.reset();
-                while (runtime.seconds() < 1) {
-
-                }
-
-
-            } catch (Exception e) {
-                telemetry.addData("color ERROR", e.toString());
-                telemetry.update();
-
-            }
-
-
-
-
-
-//Version of Autonomous for red alliance when the robot does not need to turn to deliver Glyph
-        } else if (colorSwitch == "redStraight") {
-
-            servoColorLeft.setPosition(1);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-            colors = colorSensor.getNormalizedColors();
-            runtime.reset();
-            while (runtime.seconds() < 5) {
-                colors = colorSensor.getNormalizedColors();
-                if (colors.red > colors.blue) {
-                    telemetry.addData("color", "red");
-
-                } else {
-                    telemetry.addData("color", "blue");
-                }
-                telemetry.addData("blue", colors.blue);
-                telemetry.addData("red", colors.red);
-                telemetry.update();
-            }
-            runtime.reset();
-
+        if (colorSwitch == "redTurn" || colorSwitch == "redStraight") {
             if (colors.red > colors.blue) {
-                drive_code(0, 1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                runtime.reset();
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                telemetry.update();
-            } else if (colors.blue > colors.red) {
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                runtime.reset();
-                drive_code(0, 1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                telemetry.update();
-            }
-
-
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-            servoColorLeft.setPosition(.8);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-
-            servoColorLeft.setPosition(0);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-
-            telemetry.update();
-            //Determines which color Jewel the servo needs to turn to to knock off the correct color
-
-
-            //Version of Autonomous for blue alliance when the robot does not need to turn to deliver Glyph
-        } else if (colorSwitch == "blueStraight") {
-            telemetry.update();
-
-
-            servoColorLeft.setPosition(0);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-            runtime.reset();
-            while (runtime.seconds() < 5) {
-                colors = colorSensor.getNormalizedColors();
-                if (colors.red > colors.blue) {
-                    telemetry.addData("color", "red");
-
-                } else {
-                    telemetry.addData("color", "blue");
-                }
-                telemetry.addData("blue", colors.blue);
-                telemetry.addData("red", colors.red);
-                telemetry.update();
-
-            }
-
-
-            if (colors.red > colors.blue) {
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .1) {
-                }
-                runtime.reset();
-                drive_code(0, 1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                telemetry.update();
-            } else if (colors.blue > colors.red) {
-                drive_code(0, 1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                runtime.reset();
-                drive_code(0, -1, 0);
-                while (runtime.seconds() < .1) {
-
-                }
-                telemetry.update();
-            }
-
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-            servoColorLeft.setPosition(.8);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-            //servoJewelLeft.setPosition(.5);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-            servoColorLeft.setPosition(0);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-
-            }
-
-        }   else if (colorSwitch == "blueTurn") {
-                //Grabs the glyph
-                servoColorLeft.setPosition(0);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
 
                 runtime.reset();
-                while (runtime.seconds() < 5) {
-                    colors = colorSensor.getNormalizedColors();
-                    if (colors.red > colors.blue) {
-                        telemetry.addData("color", "red");
-
-                    }else {
-                        telemetry.addData("color", "blue");
-                    }
-                    telemetry.addData("blue", colors.blue);
-                    telemetry.addData("red", colors.red);
-                    telemetry.update();
-                }
-                //Determines which color Jewel the servo needs to turn to to knock off the correct color
-                if (colors.red > colors.blue) {
-                    drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1) {
-                    }
-                    runtime.reset();
+                while (runtime.seconds() < .25) {
                     drive_code(0, 1, 0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                    telemetry.update();
-                } else if (colors.blue > colors.red) {
-                    drive_code(0, 1, 0);
-                    while (runtime.seconds() < .5) {
-                    }
-                    runtime.reset();
+                }
+                runtime.reset();
+                while (runtime.seconds() < .1) {
+                    drive_code(0, 0, 0);
+                }
+                while (runtime.seconds() < .25) {
                     drive_code(0, -1, 0);
-                    while (runtime.seconds() < .1){
-
-                    }
-                    telemetry.update();
+                }
+            } else if (colors.red < colors.blue) {
+                runtime.reset();
+                while (runtime.seconds() < .25) {
+                    drive_code(0, -1, 0);
                 }
                 runtime.reset();
-                while (runtime.seconds() < .5) {
-
+                while (runtime.seconds() < .1) {
+                    drive_code(0, 0, 0);
                 }
-                servoColorLeft.setPosition(.8);
+                while (runtime.seconds() < .25) {
+                    drive_code(0, 1, 0);
+                }
+
+            }
+        } else {
+            if (colors.blue > colors.red) {
                 runtime.reset();
-                while (runtime.seconds() < 1) {
-
+                while (runtime.seconds() < .25) {
+                    drive_code(0, -1, 0);
                 }
-              //  servoJewelLeft.setPosition(.5);
                 runtime.reset();
-                while (runtime.seconds() < 1) {
-
+                while (runtime.seconds() < .1) {
+                    drive_code(0, 0, 0);
+                }
+                while (runtime.seconds() < .25) {
+                    drive_code(0, 1, 0);
                 }
 
-                servoColorLeft.setPosition(1);
+
+            } if (colors.blue < colors.red){
                 runtime.reset();
-                while (runtime.seconds() < 1) {
-
+                while (runtime.seconds()< .25) {
+                    drive_code(0, 1, 0);
+                }runtime.reset();
+                while (runtime.seconds()<.1){
+                    drive_code(0,0,0);
+                }while (runtime.seconds()<.25){
+                    drive_code(0,-1,0);
                 }
 
-
-
-
-                }
-             vuforia_Drive(colorSwitch);
             }
 
-
+        }
+    }
 
 
     String matFormat(OpenGLMatrix transformationMatrix) {
