@@ -286,8 +286,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
                 RelicRecoveryVuMark vuMark;
-                VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-                VuforiaTrackable relicTemplate = relicTrackables.get(0);
+                relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+                relicTemplate = relicTrackables.get(0);
                 relicTemplate.setName("relicVuMarkTemplate");
 
 
