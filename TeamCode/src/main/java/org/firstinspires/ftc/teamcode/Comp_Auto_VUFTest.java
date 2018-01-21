@@ -14,7 +14,7 @@ public class Comp_Auto_VUFTest extends Competition_Hardware_Relic {
         telemetry.addData("start","before init");
         init(hardwareMap);
         relicTrackables.activate();
-        
+
         waitForStart();
 
         //driving up for 2 seconds

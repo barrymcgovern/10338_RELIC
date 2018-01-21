@@ -572,9 +572,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    // just set one variable
+                    // we only need 2 variables
+                    // seconds to turn and direction
 
-                    // secondsToTurn = []
+
 
                     vuRSSeconds = .4;
                     vuBSSeconds = .4;
@@ -634,18 +635,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
         }
     }
-/*
-   void distance(float x, float y) {
-       p = (x * x);
-       r = (y * y);
-       d = Math.sqrt(r + p);
-   }
 
-    void  joystick_angle( float x, float y, double a){
-        a= Math.toDegrees(Math.atan2(y, x));
-
-    }
-*/
     void drive_code (float x,float y, float z){
         try{
 
@@ -668,132 +658,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         }
 
     }
-
-
-
-
-    void drive(String robotDirection) {
-        try {
-
-            telemetry.addData("direction", robotDirection);
-            //sets speed needed for motors to run different directions
-            //Uses four motor to move robot ten different directions
-            //Negative speed moves motor backwards and positive speed moves motor forward
-
-            // Turn off RUN_TO_POSITION
-
-
-
-
-            if (robotDirection == "up") {
-                motorfl.setPower(-speed);
-                motorfr.setPower(speed);
-                motorbl.setPower(speed);
-                motorbr.setPower(-speed);
-
-
-            } else if (robotDirection == "up left") {
-                motorfl.setPower(0);
-                motorfr.setPower(speed);
-                motorbl.setPower(0);
-                motorbr.setPower(-speed);
-
-            } else if (robotDirection == "up right") {
-                motorfl.setPower(0);
-                motorfr.setPower(-speed);
-                motorbl.setPower(0);
-                motorbr.setPower(speed);
-
-            } else if (robotDirection == "down") {
-                motorfl.setPower(speed);
-                motorfr.setPower(-speed);
-                motorbl.setPower(-speed);
-                motorbr.setPower(speed);
-
-            } else if (robotDirection == "down left") {
-                motorfl.setPower(speed);
-                motorfr.setPower(0);
-                motorbl.setPower(-speed);
-                motorbr.setPower(0);
-            } else if (robotDirection == "down right") {
-                motorfl.setPower(-speed);
-                motorfr.setPower(0);
-                motorbl.setPower(speed);
-                motorbr.setPower(0);
-
-            } else if (robotDirection == "left") {
-                motorfl.setPower(speed);
-                motorfr.setPower(speed);
-                motorbl.setPower(-speed);
-                motorbr.setPower(-speed);
-            } else if (robotDirection == "right") {
-                motorfl.setPower(-speed);
-                motorfr.setPower(-speed);
-                motorbl.setPower(speed);
-                motorbr.setPower(speed);
-
-            } else if (robotDirection == "circle left") {
-                motorfl.setPower(speed);
-                motorfr.setPower(speed);
-                motorbl.setPower(speed);
-                motorbr.setPower(speed);
-
-            } else if (robotDirection == "circle right") {
-                motorfl.setPower(-speed);
-                motorfr.setPower(-speed);
-                motorbl.setPower(-speed);
-                motorbr.setPower(-speed);
-
-            } else {
-                motorfl.setPower(0);
-                motorfr.setPower(0);
-                motorbl.setPower(0);
-                motorbr.setPower(0);
-            }
-
-            telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motorfl.getPower(), motorfr.getPower(), motorbl.getPower(), motorbr.getPower());
-
-            /*
-            telemetry.addData("motorfl", motorfl.getPower());
-            telemetry.addData("motorfr", motorfr.getPower());
-            telemetry.addData("motorbl", motorbl.getPower());
-            telemetry.addData("motorbr", motorbr.getPower());
-            telemetry.update();
-            */
-
-
-        } catch (Exception p_exception) {
-            telemetry.addData("drive error", p_exception.toString());
-            telemetry.update();
-        }
-
-    }
-    
-    void driveStick(float x, float y) {
-
-        // speed is greater value of x or y
-        //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
-        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y)) / 1.5;
-
-        telemetry.addData("y", y);
-        //no
-        telemetry.addData("x", x);
-
-        //One program to combine 8 directions of motion on one joystick using ranges of x and y values
-        if (y > .10) {
-            drive("left");
-        } else if (y < -.10) {
-            drive("right");
-        } else if (x > .10) {
-            drive("down");
-        } else if (x < -.10) {
-            drive("up");
-        } else {
-            drive("stop");
-        }
-    }
-
-
 
 }
 
