@@ -19,10 +19,10 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
         init(hardwareMap);
 
         waitForStart();
-
+        drive_code(0, 0, 0);
         while (opModeIsActive()) {
-            try{
 
+            try{
                 if (gamepad1.dpad_left){
                     drive_code(-1, 0, 0);
 
@@ -147,9 +147,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             }
 
-
-
-
             try {
                   /*
 
@@ -167,20 +164,19 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     runtime.reset();
                 }
                 if (startSpin == true) {
-
                     if (runtime.seconds() < 3) {
                         drive_code(0, 0, -1);
                     }
                     if (runtime.seconds() > 3){
                         startSpin = false;
+                        drive_code(0, 0, 0);
                     }
                 }
-
-
 
             }catch (Exception p_exception){
                 telemetry.addData("op mode error","spin" + p_exception.toString());
             }
+
             try{
                 telemetry.addData("servo color left", servoColorLeft.getPosition());
                 if (gamepad2.b){
@@ -193,7 +189,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
             try {
                 telemetry.addData("claw right", clawr.getPosition());
                 telemetry.addData("claw left", clawl.getPosition());
-
 
                 if (gamepad2.left_bumper) {
                     clawr.setPosition(clawREnd);

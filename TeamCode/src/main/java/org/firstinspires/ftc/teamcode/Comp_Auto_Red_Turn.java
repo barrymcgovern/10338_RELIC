@@ -21,8 +21,7 @@ public class Comp_Auto_Red_Turn extends Competition_Hardware_Relic {
 
         telemetry.addData("start","before init");
         init(hardwareMap);
-
-
+        relicTrackables.activate();
         waitForStart();
 
 
