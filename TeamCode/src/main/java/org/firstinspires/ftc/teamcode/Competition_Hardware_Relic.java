@@ -65,10 +65,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public double clawRStart = 0.75;
     public double clawLEnd =0;
     public double clawREnd =1;
-    public double vuRSSeconds = 0;
-    public double vuBSSeconds = 0;
-    public double vuBTSeconds = 0;
-    public double vuRTSeconds = 0;
+    public double vuSeconds = 0;
+
 
     public int down = 0;
     public int minPosStackMotor = 0;
@@ -80,6 +78,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     public int rowToGoTo = 0;
     public int targetPosition = 0;
     public String rowDirection = "";
+    public String vuDirection = "";
 
     public boolean startSpin;
 
@@ -391,43 +390,60 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 -
             blueturn
             */
+            if (colorSwitch.contains("red")){
+                vuDirection = "Right";
+            }
+            if (colorSwitch.contains("blue")){
+                vuDirection = "Left";
+            }
+              if (vuMark == RelicRecoveryVuMark.CENTER) {
+                //middle amount
+                 if (colorSwitch.contains("Straight")){
+                     vuSeconds = .4;
+                 } else if (colorSwitch.contains("Turn")){
+                     vuSeconds = .75;
+                 }
 
-
-
-                if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    // we only need 2 variables
-                    // seconds to turn and direction
-
-
-
-                    vuRSSeconds = .4;
-                    vuBSSeconds = .4;
-                    vuBTSeconds = .5;
-                    vuRTSeconds = .5;
                 } else if (vuMark == RelicRecoveryVuMark.LEFT){
-                    vuRSSeconds = .6;
-                    vuBSSeconds = .2;
-                    vuRTSeconds = .7;
-                    vuBTSeconds = .3;
+                    if (colorSwitch == "redStraight"){
+                        vuSeconds = .6;
+                    } else if (colorSwitch == "blueStraight"){
+                        vuSeconds = .2;
+                    } else if (colorSwitch == "redTurn") {
+                        vuSeconds = 1;
+                    } else if (colorSwitch == "blueTurn"){
+                        vuSeconds = .5;
+                    }
+
                 } else if (vuMark == RelicRecoveryVuMark.RIGHT){
-                    vuRSSeconds = .2;
-                    vuBSSeconds = .6;
-                    vuRTSeconds = .3;
-                    vuBTSeconds = .7;
+
+                   if (colorSwitch == "redStraight"){
+                       vuSeconds = .2;
+                   } else if (colorSwitch == "blueStraight"){
+                       vuSeconds = .6;
+                   } else if (colorSwitch == "redTurn"){
+                       vuSeconds = .5;
+                   } else if (colorSwitch == "blueTurn"){
+                       vuSeconds = 1;
+                   }
                 }
+
+
 
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
                 // turn [direction] for [secondsToTurn]
 
                 // need direction to turn
+                //if turn = left
+
+
                 drive_code(0, 0, 1);
 
                 // use secondsToTurn
-                while (runtime.seconds() < .75) {
+                while (runtime.seconds() < vuSeconds) {
 
                 }
-
                 // stop
                 drive_code(0, 0, 0);
 
