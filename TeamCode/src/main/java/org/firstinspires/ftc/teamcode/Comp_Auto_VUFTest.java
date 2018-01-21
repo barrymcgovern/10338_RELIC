@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by kids on 11/2/2017.
  * BLUE 1 AUTONOMOUS
  */
-@Autonomous(name="Auto: VUF Test", group= "Pushbot")
+@Autonomous(name="Auto: Run Vuf Test", group= "Pushbot")
 public class Comp_Auto_VUFTest extends Competition_Hardware_Relic {
 
     @Override  public void runOpMode() {
@@ -14,8 +14,8 @@ public class Comp_Auto_VUFTest extends Competition_Hardware_Relic {
         telemetry.addData("start","before init");
         init(hardwareMap);
         relicTrackables.activate();
+        
         waitForStart();
-
 
         //driving up for 2 seconds
         runtime.reset();
