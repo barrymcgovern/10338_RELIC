@@ -182,7 +182,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_auto (-.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .3) {
+                    while (runtime.seconds() < .65) {
                         drive_auto (.3, 0);
                     }
                     runtime.reset();
@@ -198,7 +198,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_auto(.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .3) {
+                    while (runtime.seconds() < .65) {
                         drive_auto(-.3, 0);
                     }
                     runtime.reset();
@@ -214,7 +214,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_auto(.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .3) {
+                    while (runtime.seconds() < .65) {
                         drive_auto(-.3, 0);
                     }
                     runtime.reset();
@@ -228,7 +228,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     while (runtime.seconds()< .3) {
                         drive_auto(-.3, 0);
                     }runtime.reset();
-                    while (runtime.seconds()< .3){
+                    while (runtime.seconds()< .65){
                         drive_auto(.3, 0);
                     }
                     runtime.reset();
