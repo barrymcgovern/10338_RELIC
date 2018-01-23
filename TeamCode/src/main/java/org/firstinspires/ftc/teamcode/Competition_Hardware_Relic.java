@@ -459,13 +459,25 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
+                while (runtime.seconds() < .3) {
+                    drive_code(0, -1, 0);
+                }
+                drive_code(0, 0, 0);
+
+                runtime.reset();
+                while (runtime.seconds() < .5) {
+
+                }
+                drive_code(0, 0, 0);
 
                 if (vuDirection == "Right") {
+
 
                     runtime.reset();
                     while (runtime.seconds() < vuSeconds) {
                         drive_code(0, 0, 1);
                     }
+                    drive_code(0, 0, 0);
 
 
                 }
@@ -501,29 +513,38 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 */
             } else if (colorSwitch.contains("Turn")) {
                 runtime.reset();
-                while (runtime.seconds() < vuSeconds){
+                while (runtime.seconds() < vuSeconds) {
                     drive_code(0, 1, 0);
                 }
-                if (vuDirection == "Right"){
+                drive_code(0, 0, 0);
+                if (vuDirection == "Right") {
                     runtime.reset();
-                    while (runtime.seconds() < .75){
-                        drive_code(0, 0, 1);
-                    }
-                  /*
-                    runtime.reset();
-                    while (runtime.seconds() < .75){
+                    while (runtime.seconds() < .75) {
                         drive_code(0, 0, 1);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2){
+                        drive_code(0, 0, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
                         drive_code(0, 1, 0);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2){
+                        drive_code(0, 0, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
                         drive_code(0, -1, 0);
                     }
-*/
-            } else if (vuDirection == "Left"){
+                    runtime.reset();
+                    while (runtime.seconds() < .2){
+                        drive_code(0, 0, 0);
+                    }
+
+                }
+            } /* else if (vuDirection == "Left"){
                     runtime.reset();
                     while (runtime.seconds() < .75){
                         drive_code(0,0,-1);
@@ -531,10 +552,12 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 }
 
             }
-
+            */
 
         }
     }
+
+
     void drive_auto (double x, double y){
         try {
 
