@@ -390,85 +390,118 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 -
             blueturn
             */
-            if (colorSwitch.contains("red")){
+            if (colorSwitch.contains("red")) {
                 vuDirection = "Right";
             }
-            if (colorSwitch.contains("blue")){
+            if (colorSwitch.contains("blue")) {
                 vuDirection = "Left";
             }
-              if (vuMark == RelicRecoveryVuMark.CENTER) {
+            if (vuMark == RelicRecoveryVuMark.CENTER) {
                 //middle amount
-                 if (colorSwitch.contains("Straight")){
-                     vuSeconds = .4;
-                 } else if (colorSwitch.contains("Turn")){
-                     vuSeconds = .75;
-                 }
-
-                } else if (vuMark == RelicRecoveryVuMark.LEFT){
-                    if (colorSwitch == "redStraight"){
-                        vuSeconds = .6;
-                    } else if (colorSwitch == "blueStraight"){
-                        vuSeconds = .2;
-                    } else if (colorSwitch == "redTurn") {
-                        vuSeconds = 1;
-                    } else if (colorSwitch == "blueTurn"){
-                        vuSeconds = .5;
-                    }
-
-                } else if (vuMark == RelicRecoveryVuMark.RIGHT){
-
-                   if (colorSwitch == "redStraight"){
-                       vuSeconds = .2;
-                   } else if (colorSwitch == "blueStraight"){
-                       vuSeconds = .6;
-                   } else if (colorSwitch == "redTurn"){
-                       vuSeconds = .5;
-                   } else if (colorSwitch == "blueTurn"){
-                       vuSeconds = 1;
-                   }
+                if (colorSwitch.contains("Straight")) {
+                    vuSeconds = .4;
+                } else if (colorSwitch.contains("Turn")) {
+                    vuSeconds = .75;
                 }
 
+            } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                if (colorSwitch == "redStraight") {
+                    vuSeconds = .6;
+                } else if (colorSwitch == "blueStraight") {
+                    vuSeconds = .2;
+                } else if (colorSwitch == "redTurn") {
+                    vuSeconds = 1;
+                } else if (colorSwitch == "blueTurn") {
+                    vuSeconds = .5;
+                }
+
+            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                if (colorSwitch == "redStraight") {
+                    vuSeconds = .2;
+                } else if (colorSwitch == "blueStraight") {
+                    vuSeconds = .6;
+                } else if (colorSwitch == "redTurn") {
+                    vuSeconds = .5;
+                } else if (colorSwitch == "blueTurn") {
+                    vuSeconds = 1;
+                }
+            }
 
 
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
-                // turn [direction] for [secondsToTurn]
 
-                // need direction to turn
-                //if turn = left
+                if (vuDirection == "Right") {
 
+                    runtime.reset();
+                    while (runtime.seconds() < vuSeconds) {
+                        drive_code(0, 0, 1);
+                    }
 
-                drive_code(0, 0, 1);
-
-                // use secondsToTurn
-                while (runtime.seconds() < vuSeconds) {
 
                 }
-                // stop
-                drive_code(0, 0, 0);
+                if (vuDirection == "Left") {
 
+                    runtime.reset();
+                    while (runtime.seconds() < vuSeconds) {
+                        drive_code(0, 0, -1);
+                    }
+
+                }
+/*
+                runtime.reset();
+                while (runtime.seconds() < .5) {
+
+                }
 
                 runtime.reset();
-                // drive straight
-
-                drive_code(0, 1, 0);
-
-                // need # of seconds to drive straight -
                 while (runtime.seconds() < .75) {
+                    drive_code(0, 1, 0);
 
                 }
+
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, -1, 0);
+                }
+
 
                 //stop
                 drive_code(0, 0, 0);
 
+*/
+            } else if (colorSwitch.contains("Turn")) {
+                runtime.reset();
+                while (runtime.seconds() < vuSeconds){
+                    drive_code(0, 1, 0);
+                }
+                if (vuDirection == "Right"){
+                    runtime.reset();
+                    while (runtime.seconds() < .75){
+                        drive_code(0, 0, 1);
+                    }
+                  /*
+                    runtime.reset();
+                    while (runtime.seconds() < .75){
+                        drive_code(0, 0, 1);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2){
+                        drive_code(0, 1, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2){
+                        drive_code(0, -1, 0);
+                    }
+*/
+            } else if (vuDirection == "Left"){
+                    runtime.reset();
+                    while (runtime.seconds() < .75){
+                        drive_code(0,0,-1);
+                    }
+                }
 
-
-            }else { // turn
-                // go straigt for [seconds]
-
-                // turn [direction]
-
-                // go straight
             }
 
 
