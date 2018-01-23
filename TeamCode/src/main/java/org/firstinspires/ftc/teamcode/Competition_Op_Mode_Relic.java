@@ -115,19 +115,19 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                         telemetry.addData("stackPower", stackmotor.getPower());
                         if(rowToGoTo >0){
                             if (rowDirection == "up"){
-                                if(targetPosition> stackmotor.getCurrentPosition()){
+                                if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.1);
                                 }else{
-                                    stackmotor.setPower(-.5);
+                                 //   stackmotor.setPower(-.5);
                                 }
 
                             }else if (rowDirection == "down"){
-                                if(targetPosition< stackmotor.getCurrentPosition()){
+                                if(targetPosition < stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.3);
                                 }else{
-                                    stackmotor.setPower(.05);
+                                  //  stackmotor.setPower(.05);
                                 }
 
                             }
