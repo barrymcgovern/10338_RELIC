@@ -179,15 +179,15 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                     runtime.reset();
                     while (runtime.seconds() < .3) {
-                        drive_auto (.3, 0);
-                    }
-                    runtime.reset();
-                    while (runtime.seconds() < .3) {
                         drive_auto (-.3, 0);
                     }
                     runtime.reset();
+                    while (runtime.seconds() < .3) {
+                        drive_auto (.3, 0);
+                    }
+                    runtime.reset();
                     while (runtime.seconds() < .05) {
-                        drive_auto(.3, 0);
+                        drive_auto(-.3, 0);
                     }
                     runtime.reset();
 
@@ -195,15 +195,15 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 } else if (colors.red < colors.blue) {
                     runtime.reset();
                     while (runtime.seconds() < .3) {
-                        drive_auto(-.3, 0);
-                    }
-                    runtime.reset();
-                    while (runtime.seconds() < .3) {
                         drive_auto(.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .05) {
+                    while (runtime.seconds() < .3) {
                         drive_auto(-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .05) {
+                        drive_auto(.3, 0);
                     }
 
                 }
@@ -211,29 +211,29 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 if (colors.blue > colors.red) {
                     runtime.reset();
                     while (runtime.seconds() < .3) {
-                        drive_auto(-.3, 0);
-                    }
-                    runtime.reset();
-                    while (runtime.seconds() < .3) {
                         drive_auto(.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .05) {
+                    while (runtime.seconds() < .3) {
                         drive_auto(-.3, 0);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .05) {
+                        drive_auto(.3, 0);
                     }
 
 
                 } if (colors.blue < colors.red){
                     runtime.reset();
                     while (runtime.seconds()< .3) {
-                        drive_auto(.3, 0);
+                        drive_auto(-.3, 0);
                     }runtime.reset();
                     while (runtime.seconds()< .3){
-                        drive_auto(-.3, 0);
+                        drive_auto(.3, 0);
                     }
                     runtime.reset();
                     while (runtime.seconds()<.05){
-                        drive_auto(.3,0);
+                        drive_auto(-.3,0);
                     }
 
                 }
