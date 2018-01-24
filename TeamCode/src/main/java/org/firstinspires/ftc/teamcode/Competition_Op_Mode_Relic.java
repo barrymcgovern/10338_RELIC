@@ -118,6 +118,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                                 if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.1);
+                                    stackmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                                 }else{
                                  //   stackmotor.setPower(-.5);
                                 }
