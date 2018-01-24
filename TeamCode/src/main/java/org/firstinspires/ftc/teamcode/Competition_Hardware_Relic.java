@@ -212,18 +212,18 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     drive_auto(0,0);
 
                 }
-            } else {
+            } else {                 // blue
                 if (colors.blue > colors.red) {
                     runtime.reset();
                     while (runtime.seconds() < .3) {
-                        drive_auto(.3, 0);
+                        drive_auto(-.3, 0);
                     }
                     drive_auto(0,0);
                     servoColorLeft.setPosition(0);
 
                     runtime.reset();
                     while (runtime.seconds() < .65) {
-                        drive_auto(-.3, 0);
+                        drive_auto(.3, 0);
                     }
 
                   drive_auto(0,0);
@@ -232,13 +232,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 } if (colors.blue < colors.red){
                     runtime.reset();
                     while (runtime.seconds()< .3) {
-                        drive_auto(-.3, 0);
+                        drive_auto(.3, 0);
                     }
                     drive_auto(0,0);
                     servoColorLeft.setPosition(0);
                     runtime.reset();
                     while (runtime.seconds()< .65){
-                        drive_auto(.3, 0);
+                        drive_auto(-.3, 0);
                     }
                     drive_auto(0,0);
                 }
