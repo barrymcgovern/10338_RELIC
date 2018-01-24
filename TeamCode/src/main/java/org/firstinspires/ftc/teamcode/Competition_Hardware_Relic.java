@@ -112,6 +112,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     OpenGLMatrix lastLocation = null;
 
     public void autoMode(String colorSwitch) {
+        motorfl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorfr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorbl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorbr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         try {
             try {
                 servoColorLeft.setPosition(1);
@@ -165,7 +169,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             while (runtime.seconds() < .5) {
                 stackmotor.setPower(-.5);
             }
-            stackmotor.setPower(-.1);
+            stackmotor.setPower(-0);
             drive_code(0,0,0);
         }catch (Exception e){
             telemetry.addData("run ERROR", e.toString());
@@ -181,15 +185,17 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     while (runtime.seconds() < .3) {
                         drive_auto (-.3, 0);
                     }
+                    drive_auto(0,0);
+                    servoColorLeft.setPosition(0);
                     runtime.reset();
                     while (runtime.seconds() < .65) {
                         drive_auto (.3, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .05) {
-                        drive_auto(-.3, 0);
-                    }
-                    runtime.reset();
+                    drive_auto(0,0);
+
+
+
 
 
                 } else if (colors.red < colors.blue) {
@@ -197,45 +203,44 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     while (runtime.seconds() < .3) {
                         drive_auto(.3, 0);
                     }
+                    drive_auto(0,0);
+                    servoColorLeft.setPosition(0);
                     runtime.reset();
                     while (runtime.seconds() < .65) {
                         drive_auto(-.3, 0);
                     }
-                    runtime.reset();
-                    while (runtime.seconds() < .05) {
-                        drive_auto(.3, 0);
-                    }
+                    drive_auto(0,0);
 
                 }
-            } else {
+            } else {                 // blue
                 if (colors.blue > colors.red) {
                     runtime.reset();
                     while (runtime.seconds() < .3) {
-                        drive_auto(.3, 0);
-                    }
-                    runtime.reset();
-                    while (runtime.seconds() < .65) {
                         drive_auto(-.3, 0);
                     }
+                    drive_auto(0,0);
+                    servoColorLeft.setPosition(0);
+
                     runtime.reset();
-                    while (runtime.seconds() < .05) {
+                    while (runtime.seconds() < .65) {
                         drive_auto(.3, 0);
                     }
+
+                  drive_auto(0,0);
 
 
                 } if (colors.blue < colors.red){
                     runtime.reset();
                     while (runtime.seconds()< .3) {
-                        drive_auto(-.3, 0);
-                    }runtime.reset();
-                    while (runtime.seconds()< .65){
                         drive_auto(.3, 0);
                     }
+                    drive_auto(0,0);
+                    servoColorLeft.setPosition(0);
                     runtime.reset();
-                    while (runtime.seconds()<.05){
-                        drive_auto(-.3,0);
+                    while (runtime.seconds()< .65){
+                        drive_auto(-.3, 0);
                     }
-
+                    drive_auto(0,0);
                 }
 
             }
@@ -299,7 +304,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 stackmotor = hwMap.dcMotor.get("stackmotor");
                 stackmotor.setPower(0);
                 stackmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+                stackmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             }catch (Exception e){
                 telemetry.addData("init stackmotor ERROR", e.toString());
