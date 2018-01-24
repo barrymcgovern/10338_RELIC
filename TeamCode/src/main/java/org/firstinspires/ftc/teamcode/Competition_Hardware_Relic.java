@@ -396,17 +396,17 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
 
         vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        telemetry.addData("vuMark",vuMark);
+        telemetry.addData("vuMark", vuMark);
         telemetry.update();
         runtime.reset();
-        while(runtime.seconds() < 3){
+        while (runtime.seconds() < 3) {
             // show mark for a few seconds
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            telemetry.addData("vuMark",vuMark);
+            telemetry.addData("vuMark", vuMark);
             telemetry.update();
         }
         runtime.reset();
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
             /* redstraight
                 - turn left a few seconds
                   go straight
@@ -459,7 +459,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
-                while (runtime.seconds() < .3) {
+                while (runtime.seconds() < 1) {
                     drive_code(0, -1, 0);
                 }
                 drive_code(0, 0, 0);
@@ -489,7 +489,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
 
                 }
-/*
+                drive_code(0, 0, 0);
                 runtime.reset();
                 while (runtime.seconds() < .5) {
 
@@ -510,10 +510,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 //stop
                 drive_code(0, 0, 0);
 
-*/
             } else if (colorSwitch.contains("Turn")) {
                 runtime.reset();
                 while (runtime.seconds() < vuSeconds) {
+                    //color - blue go back
                     drive_code(0, 1, 0);
                 }
                 drive_code(0, 0, 0);
@@ -523,15 +523,16 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_code(0, 0, 1);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .2){
+                    while (runtime.seconds() < .2) {
                         drive_code(0, 0, 0);
                     }
                     runtime.reset();
+                    // drive forward till we put glyph in
                     while (runtime.seconds() < .2) {
                         drive_code(0, 1, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .2){
+                    while (runtime.seconds() < .2) {
                         drive_code(0, 0, 0);
                     }
                     runtime.reset();
@@ -539,24 +540,41 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_code(0, -1, 0);
                     }
                     runtime.reset();
-                    while (runtime.seconds() < .2){
+                    while (runtime.seconds() < .2) {
                         drive_code(0, 0, 0);
                     }
 
                 }
-            } /* else if (vuDirection == "Left"){
-                    runtime.reset();
-                    while (runtime.seconds() < .75){
-                        drive_code(0,0,-1);
-                    }
+            } else if (vuDirection == "Left") {  // blue
+                runtime.reset();
+                while (runtime.seconds() < .75) {
+                    drive_code(0, 0, -1);
+                }
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, 0, 0);
+                }
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, 1, 0);
+                }
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, 0, 0);
+                }
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, -1, 0);
+                }
+                runtime.reset();
+                while (runtime.seconds() < .2) {
+                    drive_code(0, 0, 0);
                 }
 
-            }
-            */
 
         }
+        drive_code(0, 0, 0);
     }
-
 
     void drive_auto (double x, double y){
         try {
