@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by kids on 11/2/2017.
  * BLUE 1 AUTONOMOUS
  */
-@Autonomous(name="Auto: Expand Test", group= "Pushbot")
+//@Autonomous(name="Auto: Expand Test", group= "Pushbot")
 public class Comp_Auto_ExpandTest extends Competition_Hardware_Relic {
 
     @Override  public void runOpMode() {

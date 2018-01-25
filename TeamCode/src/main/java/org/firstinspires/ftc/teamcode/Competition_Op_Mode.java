@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  *
  *
  */
-@TeleOp(name="Comp: Old Robot", group= "Pushbot")
+//@TeleOp(name="Comp: Old Robot", group= "Pushbot")
 //Hardware with circling and manipulator controls.
 public class Competition_Op_Mode extends Competition_Hardware {
 

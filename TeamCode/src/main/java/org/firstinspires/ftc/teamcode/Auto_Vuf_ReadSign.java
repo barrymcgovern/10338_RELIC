@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 /**
  * Created by kids on 12/29/2017.
  */
-@Autonomous (name="Auto: VUF Read Sign Only", group= "Pushbot")
+//@Autonomous (name="Auto: VUF Read Sign Only", group= "Pushbot")
 public class Auto_Vuf_ReadSign extends Competition_Hardware_Relic {
     @Override  public void runOpMode() {
         RelicRecoveryVuMark vuMark;

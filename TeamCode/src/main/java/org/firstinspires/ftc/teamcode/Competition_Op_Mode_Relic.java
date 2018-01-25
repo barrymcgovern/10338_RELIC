@@ -50,7 +50,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                         stackmotor.setPower(-.5);
                     }else{
                         telemetry.addData("stack dire","up to far");
-                        stackmotor.setPower(-.1);
+                        stackmotor.setPower(-.15);
                     }
 
 
@@ -63,7 +63,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                     }else{
                         telemetry.addData("stack dire","down to far");
-                        stackmotor.setPower(-.1);
+                        stackmotor.setPower(-.15);
                     }
 
                 }else {
@@ -116,7 +116,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                             if (rowDirection == "up"){
                                 if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
-                                    stackmotor.setPower(-.1);
+                                    stackmotor.setPower(-.15);
 
                                 }else{
                                     stackmotor.setPower(-.5);
@@ -125,7 +125,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                             }else if (rowDirection == "down"){
                                 if(targetPosition < stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
-                                    stackmotor.setPower(-.1);
+                                    stackmotor.setPower(-.15);
                                 }else{
                                     stackmotor.setPower(.05);
                                 }
@@ -133,7 +133,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                             }
                         }else{
                             telemetry.addData("stack dire","holding");
-                            stackmotor.setPower(-.1);
+                            stackmotor.setPower(-.15);
                         }
 
 
@@ -145,22 +145,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
             } catch (Exception p_exception) {
                 telemetry.addData("op mode error","stacker " +  p_exception.toString());
 
-            }
-            try {
-                telemetry.addData("claw right", clawr.getPosition());
-                telemetry.addData("claw left", clawl.getPosition());
-
-                if (gamepad2.left_trigger > 0){
-                   clawl.setPosition(clawl.getPosition() +.1);
-                   clawr.setPosition(clawr.getPosition() + .1);
-
-                } else if (gamepad1.right_trigger > 0){
-                    clawr.setPosition(clawl.getPosition() - .1);
-                    clawl.setPosition(clawr.getPosition() - .1);
-                }
-
-            } catch (Exception p_exception){
-                telemetry.addData("op mode error", "claw inch" + p_exception.toString());
             }
 
             try {
@@ -203,8 +187,11 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
             }
 
             try {
-                telemetry.addData("claw right", clawr.getPosition());
-                telemetry.addData("claw left", clawl.getPosition());
+                clawLCurPos = clawl.getPosition();
+                clawRCurPos = clawr.getPosition();
+
+                telemetry.addData("claw right", clawRCurPos);
+                telemetry.addData("claw left", clawLCurPos);
 
                 if (gamepad2.left_bumper) {
                     clawr.setPosition(clawREnd); // 1
@@ -215,19 +202,19 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     clawl.setPosition(clawLStart); // .25
                 }else{
                     if (gamepad2.left_trigger > .1) {// squezzing
-                        if (clawr.getPosition() < 1){
-                            clawr.setPosition(clawr.getPosition() + .1);
+                        if (clawRCurPos< 1){
+                            clawr.setPosition( (clawRCurPos + .01));
                         }
-                       if (clawl.getPosition() > 0){
-                           clawl.setPosition(clawl.getPosition()- .1);
-                       }
-                       
+                       if (clawLCurPos > 0){
+                           clawl.setPosition( ( clawLCurPos - .01)) ;
+                        }
+
                     }else if (gamepad2.right_trigger > .1) {// opening
-                        if (clawr.getPosition() > .5){
-                            clawr.setPosition(clawr.getPosition() - .1);
+                        if (clawRCurPos > .5){
+                            clawr.setPosition((clawRCurPos - .01));
                         }
-                        if (clawl.getPosition() < .5){
-                            clawl.setPosition(clawl.getPosition()+ .1);
+                        if (clawLCurPos < .5){
+                            clawl.setPosition((clawLCurPos + .01));
                         }
 
                     }
