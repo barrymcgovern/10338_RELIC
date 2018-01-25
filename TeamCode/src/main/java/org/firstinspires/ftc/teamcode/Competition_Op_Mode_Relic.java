@@ -19,17 +19,17 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
         init(hardwareMap);
 
         waitForStart();
-        drive_code(0, 0, 0);
+        drive_code(0, 0, 0,1);
         while (opModeIsActive()) {
 
             try{
                 if (gamepad1.dpad_left){
-                    drive_code(-1, 0, 0);
+                    drive_code(-1, 0, 0,1);
 
                 } else if (gamepad1.dpad_right){
-                    drive_code(1, 0, 0);
+                    drive_code(1, 0, 0,1);
                 } else {
-                    drive_code(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);
+                    drive_code(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x,1);
                 }
 
 
@@ -166,11 +166,11 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                 }
                 if (startSpin == true) {
                     if (runtime.seconds() < 3) {
-                        drive_code(0, 0, -1);
+                        drive_code(0, 0, -1,1);
                     }
                     if (runtime.seconds() > 3){
                         startSpin = false;
-                        drive_code(0, 0, 0);
+                        drive_code(0, 0, 0,1);
                     }
                 }
 

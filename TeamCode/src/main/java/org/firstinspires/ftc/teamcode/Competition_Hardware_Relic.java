@@ -170,7 +170,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 stackmotor.setPower(-.5);
             }
             stackmotor.setPower(-0);
-            drive_code(0,0,0);
+            drive_code(0,0,0,2);
         }catch (Exception e){
             telemetry.addData("run ERROR", e.toString());
             telemetry.update();
@@ -245,10 +245,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             }
 
-            drive_code(0,0,0);
+            drive_code(0,0,0,2);
 
         }catch (Exception e){
-            drive_code(0,0,0);
+            drive_code(0,0,0,2);
             telemetry.addData("run ERROR", e.toString());
             telemetry.update();
         }
@@ -465,24 +465,24 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
                 while (runtime.seconds() < 1) {
-                    drive_code(0, -1, 0);
+                    drive_code(0, -1, 0,.5);
                 }
-                drive_code(0, 0, 0);
+                drive_code(0, 0, 0,.5);
 
                 runtime.reset();
                 while (runtime.seconds() < .5) {
 
                 }
-                drive_code(0, 0, 0);
+                drive_code(0, 0, 0,.5);
 
                 if (vuDirection == "Right") {
 
 
                     runtime.reset();
                     while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, 1);
+                        drive_code(0, 0, 1,.5);
                     }
-                    drive_code(0, 0, 0);
+                    drive_code(0, 0, 0,.5);
 
 
                 }
@@ -490,11 +490,11 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                     runtime.reset();
                     while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, -1);
+                        drive_code(0, 0, -1,.5);
                     }
 
                 }
-                drive_code(0, 0, 0);
+                drive_code(0, 0, 0,.5);
                 runtime.reset();
                 while (runtime.seconds() < .5) {
 
@@ -502,83 +502,83 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 runtime.reset();
                 while (runtime.seconds() < .75) {
-                    drive_code(0, 1, 0);
+                    drive_code(0, 1, 0,.5);
 
                 }
 
                 runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, -1, 0);
+                while (runtime.seconds() < .5) {
+                    drive_code(0, -1, 0,.5);
                 }
 
 
                 //stop
-                drive_code(0, 0, 0);
+                drive_code(0, 0, 0,.5);
 
             } else if (colorSwitch.contains("Turn")) {
                 runtime.reset();
                 while (runtime.seconds() < vuSeconds) {
                     //color - blue go back
-                    drive_code(0, 1, 0);
+                    drive_code(0, 1, 0,.5);
                 }
-                drive_code(0, 0, 0);
+                drive_code(0, 0, 0,.5);
                 if (vuDirection == "Right") {
                     runtime.reset();
                     while (runtime.seconds() < .75) {
-                        drive_code(0, 0, 1);
+                        drive_code(0, 0, 1,.5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0);
+                        drive_code(0, 0, 0,.5);
                     }
                     runtime.reset();
                     // drive forward till we put glyph in
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 1, 0);
+                        drive_code(0, 1, 0,.5 );
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0);
+                        drive_code(0, 0, 0,.5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, -1, 0);
+                        drive_code(0, -1, 0,.5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0);
+                        drive_code(0, 0, 0,.5);
                     }
 
                 }
             } else if (vuDirection == "Left") {  // blue
                 runtime.reset();
                 while (runtime.seconds() < .75) {
-                    drive_code(0, 0, -1);
+                    drive_code(0, 0, -1,.5);
                 }
                 runtime.reset();
                 while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0);
+                    drive_code(0, 0, 0,.5);
                 }
                 runtime.reset();
                 while (runtime.seconds() < .2) {
-                    drive_code(0, 1, 0);
+                    drive_code(0, 1, 0,.5);
                 }
                 runtime.reset();
                 while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0);
+                    drive_code(0, 0, 0,.5);
                 }
                 runtime.reset();
                 while (runtime.seconds() < .2) {
-                    drive_code(0, -1, 0);
+                    drive_code(0, -1, 0,.5);
                 }
                 runtime.reset();
                 while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0);
+                    drive_code(0, 0, 0,.5);
                 }
 
 
         }
-        drive_code(0, 0, 0);
+        drive_code(0, 0, 0,.5);
     }
 
     void drive_auto (double x, double y){
@@ -596,7 +596,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
     }
 
 
-    void drive_code (float x,float y, float z){
+    void drive_code (float x,float y, float z,double powerPerc){
         try{
 
             double r = Math.hypot(x,y);
@@ -607,10 +607,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             final double v3 = r * Math.sin(robotAngle) + rightX;
             final double v4 = r * Math.cos(robotAngle) - rightX;
 
-            motorfl.setPower(v1);
-            motorfr.setPower(v2);
-            motorbl.setPower(v3);
-            motorbr.setPower(v4);
+            motorfl.setPower(v1 * powerPerc);
+            motorfr.setPower(v2 * powerPerc);
+            motorbl.setPower(v3 * powerPerc);
+            motorbr.setPower(v4 * powerPerc);
 
         }catch (Exception e){
             telemetry.addData("drive ERROR", e.toString());
