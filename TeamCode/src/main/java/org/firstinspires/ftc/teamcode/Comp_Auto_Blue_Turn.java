@@ -20,7 +20,7 @@ public class Comp_Auto_Blue_Turn extends Competition_Hardware_Relic {
         //driving up for 2 seconds
         runtime.reset();
         autoMode("blueTurn");
-
+        vuforia_Drive("blueTurn");
         drive_code(0,0,0,1);
 
 
