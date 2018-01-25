@@ -28,7 +28,7 @@ public class Comp_Auto_Red_Straight extends Competition_Hardware_Relic {
         runtime.reset();
         autoMode("redStraight");
 
-        drive_code(0,0,0);
+        drive_code(0,0,0,1);
 
 
 

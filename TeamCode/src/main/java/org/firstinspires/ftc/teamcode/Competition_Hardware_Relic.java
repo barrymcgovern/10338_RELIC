@@ -439,7 +439,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             } else if (vuMark == RelicRecoveryVuMark.LEFT) {
                 if (colorSwitch == "redStraight") {
-                    vuSeconds = .6;
+                    vuSeconds = .8;
                 } else if (colorSwitch == "blueStraight") {
                     vuSeconds = .2;
                 } else if (colorSwitch == "redTurn") {
@@ -464,7 +464,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
-                while (runtime.seconds() < 1) {
+                while (runtime.seconds() < .75) {
                     drive_code(0, -1, 0,.5);
                 }
                 drive_code(0, 0, 0,.5);
@@ -480,9 +480,9 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                     runtime.reset();
                     while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, 1,.5);
+                        drive_code(0, 0, 1,1);
                     }
-                    drive_code(0, 0, 0,.5);
+
 
 
                 }
@@ -490,7 +490,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                     runtime.reset();
                     while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, -1,.5);
+                        drive_code(0, 0, -1,1);
                     }
 
                 }
@@ -499,16 +499,22 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 while (runtime.seconds() < .5) {
 
                 }
+                drive_code(0,0,0,.5);
 
                 runtime.reset();
-                while (runtime.seconds() < .75) {
-                    drive_code(0, 1, 0,.5);
+                while (runtime.seconds() < 1) {
+                    drive_code(0, -1, 0,.5);
+
+                }
+                drive_code(0,0,0,.5);
+                runtime.reset();
+                while (runtime.seconds() < .5){
 
                 }
 
                 runtime.reset();
                 while (runtime.seconds() < .5) {
-                    drive_code(0, -1, 0,.5);
+                    drive_code(0, 1, 0,.5);
                 }
 
 
@@ -519,65 +525,63 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 runtime.reset();
                 while (runtime.seconds() < vuSeconds) {
                     //color - blue go back
-                    drive_code(0, 1, 0,.5);
+                    drive_code(0, 1, 0, .5);
                 }
-                drive_code(0, 0, 0,.5);
+                drive_code(0, 0, 0, .5);
                 if (vuDirection == "Right") {
                     runtime.reset();
                     while (runtime.seconds() < .75) {
-                        drive_code(0, 0, 1,.5);
+                        drive_code(0, 0, 1, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0,.5);
+                        drive_code(0, 0, 0, .5);
                     }
                     runtime.reset();
                     // drive forward till we put glyph in
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 1, 0,.5 );
+                        drive_code(0, 1, 0, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0,.5);
+                        drive_code(0, 0, 0, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, -1, 0,.5);
+                        drive_code(0, -1, 0, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
-                        drive_code(0, 0, 0,.5);
+                        drive_code(0, 0, 0, .5);
                     }
 
+                } else if (vuDirection == "Left") {  // blue
+                    runtime.reset();
+                    while (runtime.seconds() < .75) {
+                        drive_code(0, 0, -1, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
+                        drive_code(0, 0, 0, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
+                        drive_code(0, 1, 0, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
+                        drive_code(0, 0, 0, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
+                        drive_code(0, -1, 0, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .2) {
+                        drive_code(0, 0, 0, .5);
+                    }
                 }
-            } else if (vuDirection == "Left") {  // blue
-                runtime.reset();
-                while (runtime.seconds() < .75) {
-                    drive_code(0, 0, -1,.5);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0,.5);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, 1, 0,.5);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0,.5);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, -1, 0,.5);
-                }
-                runtime.reset();
-                while (runtime.seconds() < .2) {
-                    drive_code(0, 0, 0,.5);
-                }
-
-
-        }
+            }
         drive_code(0, 0, 0,.5);
     }
 

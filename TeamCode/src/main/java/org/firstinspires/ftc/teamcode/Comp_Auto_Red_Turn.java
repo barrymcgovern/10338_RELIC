@@ -29,7 +29,7 @@ public class Comp_Auto_Red_Turn extends Competition_Hardware_Relic {
         runtime.reset();
         autoMode("redTurn");
 
-        drive_code(0,0,0);
+        drive_code(0,0,0,1);
 
 
 
