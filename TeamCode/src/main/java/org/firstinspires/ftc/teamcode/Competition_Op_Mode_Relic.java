@@ -24,12 +24,12 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             try{
                 if (gamepad1.dpad_left){
-                    drive_code(-1, 0, 0,1);
+                    drive_code(1, 0, 0,1);
 
                 } else if (gamepad1.dpad_right){
-                    drive_code(1, 0, 0,1);
+                    drive_code(-1, 0, 0,1);
                 } else {
-                    drive_code(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x,1);
+                    drive_code(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x,1);
                 }
 
 
@@ -118,7 +118,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                                 if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.1);
-                                    stackmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
                                 }else{
                                  //   stackmotor.setPower(-.5);
                                 }
@@ -133,7 +133,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                             }
                         }else{
-                            stackmotor.setPower(-.1);
+                            stackmotor.setPower(0);
                         }
 
 
