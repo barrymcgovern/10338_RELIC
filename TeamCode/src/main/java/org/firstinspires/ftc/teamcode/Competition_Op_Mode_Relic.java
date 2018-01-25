@@ -32,45 +32,42 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     drive_code(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x,1);
                 }
 
-
             } catch (Exception p_exception) {
                 telemetry.addData("op mode error", "drive " + p_exception.toString());
 
             }
 
-
-
-
             try{
                 telemetry.addData("position", stackmotor.getCurrentPosition());
                 telemetry.addData("max ",maxPosStackMotor);
                 telemetry.addData("min",minPosStackMotor);
+                telemetry.addData("stackmotor",stackmotor.getPower());
                 if (gamepad2.left_stick_y < -.1){
+                    rowToGoTo = 0;
                     telemetry.addData("stack dire","up");
 
                     if (stackmotor.getCurrentPosition() > maxPosStackMotor) {
                         stackmotor.setPower(-.5);
                     }else{
+                        telemetry.addData("stack dire","up to far");
                         stackmotor.setPower(-.1);
                     }
 
 
                 } else if (gamepad2.left_stick_y > .1) {
+                    rowToGoTo = 0;
                     telemetry.addData("stack dire","down");
 
                     if (stackmotor.getCurrentPosition() < minPosStackMotor) {
                         stackmotor.setPower(.05);
 
                     }else{
+                        telemetry.addData("stack dire","down to far");
                         stackmotor.setPower(-.1);
                     }
 
                 }else {
-
-
-
                     try{
-                        telemetry.addData("stack dire","gamepad");
 
                         if (gamepad2.a) {
                             rowToGoTo = 1;
@@ -114,28 +111,30 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                         telemetry.addData("rowDirection", rowDirection);
                         telemetry.addData("stackPower", stackmotor.getPower());
                         if(rowToGoTo >0){
+                            telemetry.addData("stack dire","rowtogoto" + rowToGoTo);
+
                             if (rowDirection == "up"){
                                 if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.1);
 
                                 }else{
-                                 //   stackmotor.setPower(-.5);
+                                    stackmotor.setPower(-.5);
                                 }
 
                             }else if (rowDirection == "down"){
                                 if(targetPosition < stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
-                                    stackmotor.setPower(-.3);
+                                    stackmotor.setPower(-.1);
                                 }else{
-                                  //  stackmotor.setPower(.05);
+                                    stackmotor.setPower(.05);
                                 }
 
                             }
                         }else{
-                            stackmotor.setPower(0);
+                            telemetry.addData("stack dire","holding");
+                            stackmotor.setPower(-.1);
                         }
-
 
 
                     } catch (Exception p_exception){
@@ -192,12 +191,30 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                 telemetry.addData("claw left", clawl.getPosition());
 
                 if (gamepad2.left_bumper) {
-                    clawr.setPosition(clawREnd);
-                    clawl.setPosition(clawLEnd);
+                    clawr.setPosition(clawREnd); // 1
+                    clawl.setPosition(clawLEnd); // 0
 
                 } else if (gamepad2.right_bumper) {
-                    clawr.setPosition(clawRStart);
-                    clawl.setPosition(clawLStart);
+                    clawr.setPosition(clawRStart); // .75
+                    clawl.setPosition(clawLStart); // .25
+                }else{
+                    if (gamepad2.left_trigger > .1) {// squezzing
+                        if (clawr.getPosition() < 1){
+                            clawr.setPosition(clawr.getPosition() + .1);
+                        }
+                       if (clawl.getPosition() > 0){
+                           clawl.setPosition(clawl.getPosition()- .1);
+                       }
+                       
+                    }else if (gamepad2.right_trigger > .1) {// opening
+                        if (clawr.getPosition() > .5){
+                            clawr.setPosition(clawr.getPosition() - .1);
+                        }
+                        if (clawl.getPosition() < .5){
+                            clawl.setPosition(clawl.getPosition()+ .1);
+                        }
+
+                    }
                 }
 
 
