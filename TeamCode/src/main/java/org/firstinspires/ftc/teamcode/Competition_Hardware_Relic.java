@@ -34,10 +34,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  *
  * 7 Dc motors
  * 4 drive motors, motorfl, motorfr, motorl, and motorfr. F=front, B=back, L=left, R=right
- * 3 cryptobox motors, stackmotorl and stackmotorr move up and down simultaneously, slidemotor moves left and right
+ * 1 cryptobox motor, stackmotor moves the claw up and down
  *
- * 2 servos
+ * 3 servos
  * clawl and clawr open and close on the glyphs
+ * servoColorLeft knocks the jewel off
  *
  *
  *
@@ -150,6 +151,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
         try{
             runtime.reset();
             //get claw out
+            //go up - open claws - go down - keep claws open
             runtime.reset();
             while (runtime.seconds() < .5) {
                 stackmotor.setPower(-.5);
@@ -162,12 +164,6 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             runtime.reset();
             while (runtime.seconds() < 2) {
                 stackmotor.setPower(.05);
-            }
-            clawl.setPosition(clawLEnd);
-            clawr.setPosition(clawREnd);
-            runtime.reset();
-            while (runtime.seconds() < .5) {
-                stackmotor.setPower(-.5);
             }
             stackmotor.setPower(-0);
             drive_code(0,0,0,2);
@@ -417,7 +413,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                   go straight
              bluestraight
                 - turn right a few seconds
-                - go straing
+                - go straight
             redturn
                 - go straight
                 -
