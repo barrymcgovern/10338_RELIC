@@ -46,7 +46,7 @@ public class Comp_Auto_ExpandTest extends Competition_Hardware_Relic {
           stackmotor.setPower(-.5);
         }
         stackmotor.setPower(-.1);
-        drive_code(0,0,0);
+        drive_code(0,0,0,1);
         }catch (Exception e){
             telemetry.addData("run ERROR", e.toString());
             telemetry.update();

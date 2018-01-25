@@ -21,7 +21,7 @@ public class Comp_Auto_ColorTest extends Competition_Hardware_Relic {
         // put in code to check ball color
 
 
-        drive_code(0,0,0);
+            drive_code(0,0,0,1);
 
 
 

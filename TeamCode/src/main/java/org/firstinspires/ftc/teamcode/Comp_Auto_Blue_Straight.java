@@ -20,8 +20,8 @@ public class Comp_Auto_Blue_Straight extends Competition_Hardware_Relic {
         //driving up for 2 seconds
         runtime.reset();
         autoMode("blueStraight");
-
-        drive_code(0,0,0);
+        vuforia_Drive("blueStraight");
+        drive_code(0,0,0,1);
 
 
 

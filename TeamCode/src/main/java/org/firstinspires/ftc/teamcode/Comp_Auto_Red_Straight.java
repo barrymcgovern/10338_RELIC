@@ -27,8 +27,9 @@ public class Comp_Auto_Red_Straight extends Competition_Hardware_Relic {
         //driving up for 2 seconds
         runtime.reset();
         autoMode("redStraight");
+        vuforia_Drive("redStraight");
 
-        drive_code(0,0,0);
+        drive_code(0,0,0,1);
 
 
 

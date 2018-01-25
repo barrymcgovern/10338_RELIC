@@ -146,6 +146,22 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                 telemetry.addData("op mode error","stacker " +  p_exception.toString());
 
             }
+            try {
+                telemetry.addData("claw right", clawr.getPosition());
+                telemetry.addData("claw left", clawl.getPosition());
+
+                if (gamepad2.left_trigger > 0){
+                   clawl.setPosition(clawl.getPosition() +.1);
+                   clawr.setPosition(clawr.getPosition() + .1);
+
+                } else if (gamepad1.right_trigger > 0){
+                    clawr.setPosition(clawl.getPosition() - .1);
+                    clawl.setPosition(clawr.getPosition() - .1);
+                }
+
+            } catch (Exception p_exception){
+                telemetry.addData("op mode error", "claw inch" + p_exception.toString());
+            }
 
             try {
                   /*
