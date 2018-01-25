@@ -24,12 +24,12 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             try{
                 if (gamepad1.dpad_left){
-                    drive_code(-1, 0, 0);
+                    drive_code(1, 0, 0);
 
                 } else if (gamepad1.dpad_right){
-                    drive_code(1, 0, 0);
+                    drive_code(-1, 0, 0);
                 } else {
-                    drive_code(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);
+                    drive_code(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);
                 }
 
 
@@ -51,7 +51,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                     if (stackmotor.getCurrentPosition() > maxPosStackMotor) {
                         stackmotor.setPower(-.5);
                     }else{
-                        stackmotor.setPower(-.1);
+                      //  stackmotor.setPower(0);
                     }
 
 
@@ -62,7 +62,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                         stackmotor.setPower(.05);
 
                     }else{
-                        stackmotor.setPower(-.1);
+                       // stackmotor.setPower(0);
                     }
 
                 }else {
@@ -118,7 +118,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
                                 if(targetPosition > stackmotor.getCurrentPosition()){
                                     rowToGoTo=0;
                                     stackmotor.setPower(-.1);
-                                    stackmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
                                 }else{
                                  //   stackmotor.setPower(-.5);
                                 }
@@ -133,7 +133,7 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
                             }
                         }else{
-                            stackmotor.setPower(-.1);
+                            stackmotor.setPower(0);
                         }
 
 
