@@ -27,7 +27,7 @@ public class Comp_Auto_Red_Turn extends Competition_Hardware_Relic {
 
         //driving up for 2 seconds
         runtime.reset();
-        //autoMode("redTurn");
+        autoMode("redTurn");
         vuforia_Drive("redTurn");
         drive_code(0,0,0,1);
 

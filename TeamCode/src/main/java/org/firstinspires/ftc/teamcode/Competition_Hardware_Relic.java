@@ -167,6 +167,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
             while (runtime.seconds() < 2) {
                 stackmotor.setPower(.05);
             }
+            clawl.setPosition(clawLStart);
+            clawr.setPosition(clawRStart);
             stackmotor.setPower(-0);
             drive_code(0,0,0,2);
         }catch (Exception e){
@@ -180,13 +182,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 if (colors.red > colors.blue) {
 
                     runtime.reset();
-                    while (runtime.seconds() < .3) {
+                    while (runtime.seconds() < .25) {
                         drive_auto (-.3, 0);
                     }
                     drive_auto(0,0);
                     servoColorLeft.setPosition(0);
                     runtime.reset();
-                    while (runtime.seconds() < .50) {
+                    while (runtime.seconds() < .45) {
                         drive_auto (.3, 0);
                     }
                     runtime.reset();
@@ -198,13 +200,13 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
                 } else if (colors.red < colors.blue) {
                     runtime.reset();
-                    while (runtime.seconds() < .3) {
+                    while (runtime.seconds() < .25) {
                         drive_auto(.3, 0);
                     }
                     drive_auto(0,0);
                     servoColorLeft.setPosition(0);
                     runtime.reset();
-                    while (runtime.seconds() < .50) {
+                    while (runtime.seconds() < .45) {
                         drive_auto(-.3, 0);
                     }
                     drive_auto(0,0);
@@ -220,7 +222,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     servoColorLeft.setPosition(0);
 
                     runtime.reset();
-                    while (runtime.seconds() < .50) {
+                    while (runtime.seconds() < .55) {
                         drive_auto(.3, 0);
                     }
 
@@ -233,9 +235,9 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_auto(.3, 0);
                     }
                     drive_auto(0,0);
-                    servoColorLeft.setPosition(0);
+
                     runtime.reset();
-                    while (runtime.seconds()< .50){
+                    while (runtime.seconds()< .55){
                         drive_auto(-.3, 0);
                     }
                     drive_auto(0,0);
@@ -314,8 +316,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 row1 = minPosStackMotor;
                 row2 = row1- 281;
                 row3 = row2- 221 ;
-                row4 = row3- 183;
-                maxPosStackMotor = row4 - 50;
+                row4 = row3- 220;
+                maxPosStackMotor = row4 - 100;
 
 
                 telemetry.addData("minPosStackMotor", minPosStackMotor);
@@ -435,7 +437,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                 } else if (colorSwitch == "redTurn") {
                     vuSeconds = 1;
                 } else if (colorSwitch == "blueTurn") {
-                    vuSeconds = .5;
+                    vuSeconds = .8;
                 }
 
             } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
@@ -459,81 +461,122 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
 
             }
 
-
+               servoColorLeft.setPosition(0);
             if (colorSwitch.contains("Straight")) {
                 runtime.reset();
-                while (runtime.seconds() < .75) {
-                    drive_code(0, -1, 0,.5);
-                }
-                drive_code(0, 0, 0,.5);
 
-                runtime.reset();
-                while (runtime.seconds() < .5) {
+                if (vuDirection == "Right") {      // red
+                    // go straight
+                    while (runtime.seconds() < 1) {
+                        drive_code(0, -1, 0, .5);
+                    }
+                    drive_code(0, 0, 0, .5);
+                    runtime.reset();
+                    // turn for seconds
+                    while (runtime.seconds() < vuSeconds) {
+                        drive_code(0, 0, 1, .5);
+                    }
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
 
-                }
-                drive_code(0, 0, 0,.5);
+                    }
+                    drive_code(0, 0, 0, .5);
 
-                if (vuDirection == "Right") {
 
+                    drive_code(0, 0, 0, .5);
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    drive_code(0, 0, 0, .5);
+                    // go forward
+                    runtime.reset();
+                    while (runtime.seconds() < 1) {
+                        drive_code(0, -1, 0, .5);
+
+                    }
+                    drive_code(0, 0, 0, 1);
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
+
+                    }
 
                     runtime.reset();
-                    while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, 1,1);
+                    // backup
+                    while (runtime.seconds() < .5) {
+                        drive_code(0, 1, 0, .5);
                     }
 
 
+                }else if (vuDirection == "Left") {    // blue
 
-                }
-                if (vuDirection == "Left") {
-
-                    runtime.reset();
-                    while (runtime.seconds() < vuSeconds) {
-                        drive_code(0, 0, -1,1);
+                    // go forward
+                    while (runtime.seconds() < 1) {
+                        drive_code(0, 1, 0, .5);
                     }
 
+                    drive_code(0, 0, 0, .5);
+                    runtime.reset();
+
+                    // turn for seconds
+                    while (runtime.seconds() < vuSeconds) {
+                        drive_code(0, 0, -1, .5);
+                    }
+
+                    drive_code(0, 0, 0,.5);
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
+
+                    }
+                    drive_code(0,0,0,.5);
+
+                    // go forward
+                    runtime.reset();
+                    while (runtime.seconds() < 1) {
+                        drive_code(0, 1, 0,.5);
+
+                    }
+                    drive_code(0,0,0,.5);
+                    runtime.reset();
+                    while (runtime.seconds() < .5){
+
+                    }
+
+                    // back up
+                    runtime.reset();
+                    while (runtime.seconds() < .5) {
+                        drive_code(0, -1, 0,.5);
+                    }
                 }
-                drive_code(0, 0, 0,.5);
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-
-                }
-                drive_code(0,0,0,.5);
-
-                runtime.reset();
-                while (runtime.seconds() < 1) {
-                    drive_code(0, -1, 0,.5);
-
-                }
-                drive_code(0,0,0,.5);
-                runtime.reset();
-                while (runtime.seconds() < .5){
-
-                }
-
-                runtime.reset();
-                while (runtime.seconds() < .5) {
-                    drive_code(0, 1, 0,.5);
-                }
-
 
                 //stop
                 drive_code(0, 0, 0,.5);
 
             } else if (colorSwitch.contains("Turn")) {
                 runtime.reset();
+                
+
                 while (runtime.seconds() < vuSeconds) {
                     //color - blue go back
-                    drive_code(0, -1, 0, .5);
+                       if (vuDirection == "Right") {
+                           drive_code(0, -1, 0, .5);
+
+                       }else {
+                           drive_code(0, 1, 0, .5);
+
+                       }
+
                 }
-                drive_code(0, 0, 0, .5);
+                drive_code(0, 0, 0, 1);
                 runtime.reset();
                 while (runtime.seconds() < .5){
 
                 }
                 if (vuDirection == "Right") {
                     runtime.reset();
+                    // turn
                     while (runtime.seconds() < 1.25) {
-                        drive_code(0, 0, -1, 1);
+                        drive_code(0, 0, -1, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
@@ -549,6 +592,8 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_code(0, 0, 0, .5);
                     }
                     runtime.reset();
+
+                    // drive back
                     while (runtime.seconds() < .2) {
                         drive_code(0, 1, 0, .5);
                     }
@@ -557,10 +602,10 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                         drive_code(0, 0, 0, .5);
                     }
 
-                } else if (vuDirection == "Left") {  // blue
+                } else if (vuDirection == "Left") {
                     runtime.reset();
-                    while (runtime.seconds() < .75) {
-                        drive_code(0, 0, -1, .5);
+                    while (runtime.seconds() < 1.25) {
+                        drive_code(0, 0, 1, .5);
                     }
                     runtime.reset();
                     while (runtime.seconds() < .2) {
@@ -584,7 +629,7 @@ public abstract class Competition_Hardware_Relic extends LinearOpMode {
                     }
                 }
             }
-        drive_code(0, 0, 0,.5);
+        drive_code(0, 0, 0,1);
     }
 
     void drive_auto (double x, double y){

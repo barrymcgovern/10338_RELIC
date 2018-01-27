@@ -147,35 +147,6 @@ public class Competition_Op_Mode_Relic extends Competition_Hardware_Relic  {
 
             }
 
-            try {
-                  /*
-
-                    if not startSpin then
-                              startPin = true;
-                             startSpin time = run.reset
-
-                    if runtime < spinTime - turen
-
-                     */
-
-
-                if (gamepad1.a) {
-                    startSpin = true;
-                    runtime.reset();
-                }
-                if (startSpin == true) {
-                    if (runtime.seconds() < 3) {
-                        drive_code(0, 0, -1,1);
-                    }
-                    if (runtime.seconds() > 3){
-                        startSpin = false;
-                        drive_code(0, 0, 0,1);
-                    }
-                }
-
-            }catch (Exception p_exception){
-                telemetry.addData("op mode error","spin" + p_exception.toString());
-            }
 
             try{
                 telemetry.addData("servo color left", servoColorLeft.getPosition());
